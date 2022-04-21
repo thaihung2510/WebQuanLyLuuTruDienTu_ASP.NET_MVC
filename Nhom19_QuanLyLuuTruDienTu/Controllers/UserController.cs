@@ -69,7 +69,12 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 //}
                 if (_pass.Length < 8)
                 {
-                    ViewBag.ErrorRegister();
+                    ViewBag.ErrorRegister("Mật khẩu không đủ độ bảo mật");
+                    return View();
+                }
+                if (_pass != _repass)
+                {
+                    ViewBag.ErrorRegister("Sai mật khẩu");
                     return View();
                 }
                 if (check_id == null)//chưa có id
@@ -104,6 +109,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 }
             }
             return View();
+        }
+        public ActionResult LogOutUser()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
