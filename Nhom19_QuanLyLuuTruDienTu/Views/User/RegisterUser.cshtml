@@ -1,0 +1,35 @@
+﻿@model Nhom19_QuanLyLuuTruDienTu.models.Account
+
+@{
+    ViewBag.Title = "RegisterUser";
+    Layout = "";
+}
+
+<link href="~/Content/Login.css" rel="stylesheet" />
+<div class="animated bounceInDown">
+    <div class="container" style="height:900px">
+        <span class="error animated tada" id="msg"></span>
+        @using (Html.BeginForm("RegisterUser", "User", FormMethod.Post, new { @class = "box"}))
+        {
+    <form name="form1" class="box" action="">
+        <h4>FileFate<span>Đăng ký</span></h4>
+        <h5>Điền tài khoản & mật khẩu</h5>
+        <input type="text" name="name" placeholder="Name" autocomplete="off">
+        <i class="typcn typcn-eye" id="eye"></i>
+        <input type="text" name="address" placeholder="Address" autocomplete="off">
+        <input type="text" name="phone" placeholder="Phone" autocomplete="off">
+        <input type="text" name="email" placeholder="Email" autocomplete="off">
+        <input type="text" name="username" placeholder="UserName" autocomplete="off">
+        <input type="password" name="pass" placeholder="Passsword" id="pwd" autocomplete="off">
+        <input type="password" name="repeat-pass" placeholder="Repeat Password" id="pwd" autocomplete="off">
+        <a href="#" class="forgetpass" style="position:center">Forget Password?</a>
+        <p style="color:red;resize:15px;">@ViewBag.ErrorInfo</p>
+        <input type="submit" value="Sign Up" class="btn1">
+    </form>
+        }
+        <a href="#" class="dnthave">Don’t have an account? Sign up</a>
+    </div>
+    <div class="footer">
+    </div>
+</div>
+
