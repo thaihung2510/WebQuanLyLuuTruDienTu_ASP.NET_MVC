@@ -3,6 +3,67 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using System.Data;
+@model IEnumerable<ObjFile>
 
-<h2>Index</h2>
+<div style="width: 500px; font-family: Arial;">
+    @using (@Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        if (TempData["Message"] != null)
+        {
+
+            <p style="font-family: Arial; font-size: 16px; font-weight: 200; color: red">@TempData["Message"]</p>
+        }
+        <table>
+            <tr>
+                <td style="width: 50px;">
+                    <b style="color: #FF5722">File:</b>
+                </td>
+                <td>
+                    <input type="file" name="files" id="files" multiple="multiple" />
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-success btn-rounded btn-icon-text">
+                        <i class="mdi mdi-upload btn-icon-prepend"></i> Upload
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+    }
+    <br/>
+    <table class="table table-hover table-dark">
+        <tr>
+            <th class="sorting_asc">
+                @Html.DisplayNameFor(model => model.File)
+            </th>
+            <th class="sorting">
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th class="sorting">
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th class="sorting"></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.File)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <th class="sorting">
+                    @Html.ActionLink("Download", "Download", new { fileName = item.File })
+                </th>
+            </tr>
+
+        }
+    </table>
+</div>
 
