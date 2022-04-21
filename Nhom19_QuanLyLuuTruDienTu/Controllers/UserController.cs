@@ -62,11 +62,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     ViewBag.ErrorRegister("Điền thiếu thông tin");
                     return View();
                 }
-                //if(_pass != _repass)
-                //{
-                //    ViewBag.ErrorRegister("Password không trùng");
-                //    return View();
-                //}
+      
                 if (_pass.Length < 8)
                 {
                     ViewBag.ErrorRegister("Mật khẩu không đủ độ bảo mật");
@@ -114,6 +110,12 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             Session.Abandon();
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult DetailUser(string username)
+        {
+            var user = db.Accounts.Where(s => s.Username == username).SingleOrDefault();
+            var accountinfo = db.AccountInfoes.Where(s => s.AccountInfoID == user.AccountInfoID).SingleOrDefault();
+            return View(accountinfo);
         }
     }
 }
