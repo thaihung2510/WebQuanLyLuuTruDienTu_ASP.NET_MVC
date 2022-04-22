@@ -17,7 +17,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             {
                 FileInfo fi = new FileInfo(strfile);
                 ObjFile obj = new ObjFile();
-                obj.File = fi.Name;
+                obj.File = fi.Name; 
                 obj.Size = fi.Length;
                 obj.Type = GetFileType(fi.Extension);
                 ObjFiles.Add(obj);

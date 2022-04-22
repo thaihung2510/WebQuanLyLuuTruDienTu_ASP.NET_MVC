@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -33,8 +34,28 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 db.Configuration.ValidateOnSaveEnabled = false;
                 Session["Username"] = _username;
                 Session["Password"] = _pass;
-                db.SaveChanges();
+                //db.SaveChanges();
                 ViewBag.Message = "Đăng nhập thành công";
+
+                var folder = Path.Combine(Server.MapPath("~/Content/Files"), _username);
+                if (!Directory.Exists(folder))
+                {
+                    TimeKeep _timeKeep = new TimeKeep();
+                    DateTime _createdate = DateTime.Now;
+                    _timeKeep.CreateDate = _createdate;
+                    DateTime _modifydate = DateTime.Now;
+                    _timeKeep.ModifiedDate = _modifydate;
+                    DateTime _deletedate = DateTime.Now;
+                    _timeKeep.DeletedDate = _deletedate;
+                    db.TimeKeeps.Add(_timeKeep);
+
+                    Folder _folder = new Folder();
+                    _folder.FolderName = _username;
+                    db.Folders.Add(_folder);
+                    db.SaveChanges();
+                    Directory.CreateDirectory(folder);
+                }
+
                 return RedirectToAction("Index", "Home");
 
             }
@@ -93,9 +114,27 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
                     db.Configuration.ValidateOnSaveEnabled = false;
                     db.Accounts.Add(_usertk);
-                    db.SaveChanges();
+                    //db.SaveChanges();
 
+                    //Tao Folder
+                    var folder = Path.Combine(Server.MapPath("~/Content/Files"), _username);
+                    if (!Directory.Exists(folder))
+                    {
+                        TimeKeep _timeKeep = new TimeKeep();
+                        DateTime _createdate = DateTime.Now;
+                        _timeKeep.CreateDate = _createdate;
+                        DateTime _modifydate = DateTime.Now;
+                        _timeKeep.ModifiedDate = _modifydate;
+                        DateTime _deletedate = DateTime.Now;
+                        _timeKeep.DeletedDate = _deletedate;
+                        db.TimeKeeps.Add(_timeKeep);
 
+                        Folder _folder = new Folder();
+                        _folder.FolderName = _username;
+                        db.Folders.Add(_folder);
+                        db.SaveChanges();
+                        Directory.CreateDirectory(folder);
+                    }
                     return RedirectToAction("Index");
                 }
                 else
