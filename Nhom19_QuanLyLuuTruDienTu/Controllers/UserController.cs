@@ -11,7 +11,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
     public class UserController : Controller
     {
-        QLLTDTEntities db = new QLLTDTEntities();
+        QLLTDTEntities2 db = new QLLTDTEntities2();
         public ActionResult Index()
         {
             return View();
