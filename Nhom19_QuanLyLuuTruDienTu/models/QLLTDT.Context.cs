@@ -13,10 +13,10 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class QLLTDTEntities2 : DbContext
+    public partial class QLLTDTEntities : DbContext
     {
-        public QLLTDTEntities2()
-            : base("name=QLLTDTEntities2")
+        public QLLTDTEntities()
+            : base("name=QLLTDTEntities")
         {
         }
     
