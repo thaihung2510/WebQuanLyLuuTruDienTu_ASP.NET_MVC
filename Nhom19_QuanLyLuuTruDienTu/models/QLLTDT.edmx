@@ -39,7 +39,7 @@
           <Key>
             <PropertyRef Name="FileID" />
           </Key>
-          <Property Name="FileID" Type="int" Nullable="false" />
+          <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AccountID" Type="int" Nullable="false" />
           <Property Name="TagID" Type="int" Nullable="false" />
           <Property Name="FileTypeID" Type="int" Nullable="false" />
@@ -62,7 +62,7 @@
           <Key>
             <PropertyRef Name="FolderID" />
           </Key>
-          <Property Name="FolderID" Type="int" Nullable="false" />
+          <Property Name="FolderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TimeID" Type="int" Nullable="false" />
           <Property Name="FolderName" Type="nvarchar" MaxLength="255" />
           <Property Name="TotalSize" Type="float" />
@@ -73,14 +73,14 @@
           <Key>
             <PropertyRef Name="TagID" />
           </Key>
-          <Property Name="TagID" Type="int" Nullable="false" />
+          <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NameTag" Type="nvarchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="TimeKeep">
           <Key>
             <PropertyRef Name="TimeID" />
           </Key>
-          <Property Name="TimeID" Type="int" Nullable="false" />
+          <Property Name="TimeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="DeletedDate" Type="datetime" />
@@ -400,7 +400,7 @@
           <Key>
             <PropertyRef Name="FileID" />
           </Key>
-          <Property Name="FileID" Type="Int32" Nullable="false" />
+          <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountID" Type="Int32" Nullable="false" />
           <Property Name="TagID" Type="Int32" Nullable="false" />
           <Property Name="FileTypeID" Type="Int32" Nullable="false" />
@@ -435,7 +435,7 @@
           <Key>
             <PropertyRef Name="FolderID" />
           </Key>
-          <Property Name="FolderID" Type="Int32" Nullable="false" />
+          <Property Name="FolderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TimeID" Type="Int32" Nullable="false" />
           <Property Name="FolderName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="TotalSize" Type="Double" />
@@ -450,7 +450,7 @@
           <Key>
             <PropertyRef Name="TagID" />
           </Key>
-          <Property Name="TagID" Type="Int32" Nullable="false" />
+          <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NameTag" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Files" Relationship="Self.FK__File__TagID__36B12243" FromRole="TagName" ToRole="File" />
           <NavigationProperty Name="Files1" Relationship="Self.FK__File__TagID__5441852A" FromRole="TagName" ToRole="File" />
@@ -459,7 +459,7 @@
           <Key>
             <PropertyRef Name="TimeID" />
           </Key>
-          <Property Name="TimeID" Type="Int32" Nullable="false" />
+          <Property Name="TimeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
