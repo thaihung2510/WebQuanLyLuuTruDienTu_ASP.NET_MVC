@@ -22,6 +22,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             var _username = frc["username"];
             var _pass = frc["pass"];
+            var _accid = 6; //test
             var check = db.Accounts.Where(s => s.Username == _username && s.Password == _pass).FirstOrDefault();
             if (check == null)
             {
@@ -34,6 +35,10 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 db.Configuration.ValidateOnSaveEnabled = false;
                 Session["Username"] = _username;
                 Session["Password"] = _pass;
+                //test
+                Session["UserID"] = _accid;
+                Account account = new Account();
+                //_accid = account.AccountID;
                 //db.SaveChanges();
                 ViewBag.Message = "Đăng nhập thành công";
 

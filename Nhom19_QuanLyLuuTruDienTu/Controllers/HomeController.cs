@@ -4,15 +4,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
-
+using Nhom19_QuanLyLuuTruDienTu.models;
+using File = Nhom19_QuanLyLuuTruDienTu.models.File;
 
 namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
     public class HomeController : Controller
     {
+
+        QLLTDTEntities db = new QLLTDTEntities();
+
         public ActionResult Index()
         {
             List<ObjFile> ObjFiles = new List<ObjFile>();
+
             foreach (string strfile in Directory.GetFiles(Server.MapPath("~/Content/Files")))
             {
                 FileInfo fi = new FileInfo(strfile);
@@ -51,15 +56,36 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Index(ObjFile doc)
+        public ActionResult Index(ObjFile doc, FormCollection frc)
         {
             foreach (var file in doc.files)
             {
-
                 if (file.ContentLength > 0)
                 {
+
+                    File _file = new models.File();
+                    Account account = new Account();
+                   // int check_acc_id = account.AccountID.Equals()
+                    _file.AccountID = (int)Session["UserID"];
+                    _file.FileTypeID = 1;
+                    _file.TagID = 2;
+                    _file.FolderID = 1;
                     var fileName = Path.GetFileName(file.FileName);
-                    var filePath = Path.Combine(Server.MapPath("~/Content/Files"), fileName);
+                    _file.FileName = fileName;
+                    var fileUserPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"]);
+                    var filePath = Path.Combine(fileUserPath, fileName);
+                    db.Files.Add(_file);
+
+                    TimeKeep _timeKeep = new TimeKeep();
+                    DateTime _createdate = DateTime.Now;
+                    _timeKeep.CreateDate = _createdate;
+                    DateTime _modifydate = DateTime.Now;
+                    _timeKeep.ModifiedDate = _modifydate;
+                    DateTime _deletedate = DateTime.Now;
+                    _timeKeep.DeletedDate = _deletedate;
+                    db.TimeKeeps.Add(_timeKeep);
+
+                    db.SaveChanges();
                     file.SaveAs(filePath);
                 }
             }
