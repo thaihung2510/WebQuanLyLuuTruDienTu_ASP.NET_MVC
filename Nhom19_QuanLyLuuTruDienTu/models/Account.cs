@@ -11,7 +11,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Security.Claims;
+
     public partial class Account
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +21,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
             this.Files = new HashSet<File>();
             this.Files1 = new HashSet<File>();
         }
-    
+
+        public static ClaimsIdentity Identity { get; internal set; }
         public int AccountID { get; set; }
         public int AccountInfoID { get; set; }
         public int AccountTypeID { get; set; }

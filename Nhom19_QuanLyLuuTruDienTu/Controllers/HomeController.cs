@@ -17,15 +17,29 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         public ActionResult Index()
         {
             List<ObjFile> ObjFiles = new List<ObjFile>();
-
-            foreach (string strfile in Directory.GetFiles(Server.MapPath("~/Content/Files")))
+            if(Session["Username"] == null)
             {
-                FileInfo fi = new FileInfo(strfile);
-                ObjFile obj = new ObjFile();
-                obj.File = fi.Name; 
-                obj.Size = fi.Length;
-                obj.Type = GetFileType(fi.Extension);
-                ObjFiles.Add(obj);
+                foreach (string strfile in Directory.GetFiles(Server.MapPath("~/Content/Files")))
+                {
+                    FileInfo fi = new FileInfo(strfile);
+                    ObjFile obj = new ObjFile();
+                    obj.File = fi.Name;
+                    obj.Size = fi.Length;
+                    obj.Type = GetFileType(fi.Extension);
+                    ObjFiles.Add(obj);
+                }
+            }
+            else
+            {
+                foreach (string strfile in Directory.GetFiles(Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"])))
+                {
+                    FileInfo fi = new FileInfo(strfile);
+                    ObjFile obj = new ObjFile();
+                    obj.File = fi.Name;
+                    obj.Size = fi.Length;
+                    obj.Type = GetFileType(fi.Extension);
+                    ObjFiles.Add(obj);
+                }
             }
 
             return View(ObjFiles);
@@ -55,8 +69,10 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     return "Unknown";
             }
         }
+
+
         [HttpPost]
-        public ActionResult Index(ObjFile doc, FormCollection frc)
+        public ActionResult Index(ObjFile doc)
         {
             foreach (var file in doc.files)
             {
@@ -65,7 +81,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
                     File _file = new models.File();
                     Account account = new Account();
-                   // int check_acc_id = account.AccountID.Equals()
+
                     _file.AccountID = (int)Session["UserID"];
                     _file.FileTypeID = 1;
                     _file.TagID = 2;
