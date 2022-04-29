@@ -16,9 +16,9 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
     {
         public int FileID { get; set; }
         public int AccountID { get; set; }
-        public int TagID { get; set; }
+        public Nullable<int> TagID { get; set; }
         public int FileTypeID { get; set; }
-        public int FolderID { get; set; }
+        public Nullable<int> FolderID { get; set; }
         public int TimeID { get; set; }
         public Nullable<int> Location { get; set; }
         public string FileName { get; set; }

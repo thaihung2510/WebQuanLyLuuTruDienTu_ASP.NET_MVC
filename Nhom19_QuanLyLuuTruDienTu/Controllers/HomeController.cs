@@ -80,12 +80,9 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 {
 
                     File _file = new models.File();
-                    Account account = new Account();
-
                     _file.AccountID = (int)Session["UserID"];
                     _file.FileTypeID = 1;
-                    _file.TagID = 2;
-                    _file.FolderID = 1;
+
                     var fileName = Path.GetFileName(file.FileName);
                     _file.FileName = fileName;
                     var fileUserPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"]);
