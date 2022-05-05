@@ -49,23 +49,23 @@
 
         @foreach (var item in Model)
         {
-    <tr>
-        <td class="sorting_1">
-            @Html.DisplayFor(modelItem => item.File)
-        </td>
-        <td class="sorting_1">
-            @Html.DisplayFor(modelItem => item.Size)
-        </td>
-        <td class="sorting_1">
-            @Html.DisplayFor(modelItem => item.Type)
-        </td>
-        <th class="sorting">
-            @Html.ActionLink("Download", "Download", new { fileName = item.File })
-        </th>
-        <th class="sorting">
-            @Html.ActionLink("Download", "Download", new { fileName = item.File })
-        </th>
-    </tr>
+            <tr>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.File)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <th class="sorting">
+                    @Html.ActionLink("Download", "Download", new { fileName = item.File })
+                </th>
+                <th class="sorting">
+                    @Html.ActionLink("Delete", "Delete", new { fileName = item.File })
+                </th>
+            </tr>
 
         }
     </table>

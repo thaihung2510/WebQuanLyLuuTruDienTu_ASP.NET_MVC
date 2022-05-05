@@ -61,6 +61,28 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
         }
+        public ActionResult Delete(string fileName) //downloading
+        {
+            string fullPath = "";
+            File fi;
+            if (Session["Username"] == null)
+            {
+                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), fileName);
+                System.IO.File.Delete(fullPath);
+                TempData["Message"] = "files deleted successfully";
+            }
+            else
+            {
+                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"], fileName);
+                System.IO.File.Delete(fullPath);
+                fi = db.Files.Where(f => f.FileName == fileName).FirstOrDefault();
+                db.Files.Remove(fi);
+                db.SaveChanges();
+                TempData["Message"] = "files deleted successfully";
+
+            }
+            return RedirectToAction("Index");
+        }
         private string GetFileType(string fileExtension) //file type
         {
             switch (fileExtension.ToLower())
