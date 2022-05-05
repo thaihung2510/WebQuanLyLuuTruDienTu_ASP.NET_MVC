@@ -32,10 +32,16 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             }
             else
             {
-
+                string username = "";
                 db.Configuration.ValidateOnSaveEnabled = false;
                 Session["Username"] = _username;
                 Session["Password"] = _pass;
+                //Get session id theo user
+                var userid = db.Accounts
+                    .Where(m => m.Username == _username)
+                    .Select(m => m.AccountID)
+                    .SingleOrDefault(); 
+                Session["UserID"] = userid;
                 //db.SaveChanges();
                 ViewBag.Message = "Đăng nhập thành công";
 

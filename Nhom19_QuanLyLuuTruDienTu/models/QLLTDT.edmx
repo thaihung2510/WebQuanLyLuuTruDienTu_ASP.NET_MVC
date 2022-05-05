@@ -14,7 +14,7 @@
           <Property Name="AccountTypeID" Type="int" Nullable="false" />
           <Property Name="Username" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
-          <Property Name="ResetPassWordCode" Type="varchar" MaxLength="10" />
+          <Property Name="ResetPassWordCode" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="AccountInfo">
           <Key>
@@ -41,11 +41,11 @@
           </Key>
           <Property Name="FileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AccountID" Type="int" Nullable="false" />
-          <Property Name="TagID" Type="int" Nullable="false" />
+          <Property Name="TagID" Type="int" />
           <Property Name="FileTypeID" Type="int" Nullable="false" />
-          <Property Name="FolderID" Type="int" Nullable="false" />
+          <Property Name="FolderID" Type="int" />
           <Property Name="TimeID" Type="int" Nullable="false" />
-          <Property Name="Location" Type="int" />
+          <Property Name="Location" Type="varchar(max)" />
           <Property Name="FileName" Type="nvarchar" MaxLength="255" />
           <Property Name="Size" Type="float" />
           <Property Name="Description" Type="nvarchar" MaxLength="255" />
@@ -55,8 +55,8 @@
           <Key>
             <PropertyRef Name="FileTypeID" />
           </Key>
-          <Property Name="FileTypeID" Type="int" Nullable="false" />
-          <Property Name="TypeName" Type="nvarchar" MaxLength="255" />
+          <Property Name="FileTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Folder">
           <Key>
@@ -66,7 +66,7 @@
           <Property Name="TimeID" Type="int" Nullable="false" />
           <Property Name="FolderName" Type="nvarchar" MaxLength="255" />
           <Property Name="TotalSize" Type="float" />
-          <Property Name="Location" Type="int" />
+          <Property Name="Location" Type="varchar(max)" />
           <Property Name="Parent" Type="int" />
         </EntityType>
         <EntityType Name="TagName">
@@ -74,7 +74,7 @@
             <PropertyRef Name="TagID" />
           </Key>
           <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NameTag" Type="nvarchar" MaxLength="1" />
+          <Property Name="NameTag" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="TimeKeep">
           <Key>
@@ -182,7 +182,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FolderID__35BCFE0A">
-          <End Role="Folder" Type="Self.Folder" Multiplicity="1" />
+          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
           <End Role="File" Type="Self.File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Folder">
@@ -194,7 +194,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FolderID__534D60F1">
-          <End Role="Folder" Type="Self.Folder" Multiplicity="1" />
+          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
           <End Role="File" Type="Self.File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Folder">
@@ -205,20 +205,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__File__TagID__36B12243">
-          <End Role="TagName" Type="Self.TagName" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TagName">
-              <PropertyRef Name="TagID" />
-            </Principal>
-            <Dependent Role="File">
-              <PropertyRef Name="TagID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__File__TagID__5441852A">
-          <End Role="TagName" Type="Self.TagName" Multiplicity="1" />
+          <End Role="TagName" Type="Self.TagName" Multiplicity="0..1" />
           <End Role="File" Type="Self.File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TagName">
@@ -326,10 +314,6 @@
             <End Role="Folder" EntitySet="Folder" />
             <End Role="File" EntitySet="File" />
           </AssociationSet>
-          <AssociationSet Name="FK__File__TagID__36B12243" Association="Self.FK__File__TagID__36B12243">
-            <End Role="TagName" EntitySet="TagName" />
-            <End Role="File" EntitySet="File" />
-          </AssociationSet>
           <AssociationSet Name="FK__File__TagID__5441852A" Association="Self.FK__File__TagID__5441852A">
             <End Role="TagName" EntitySet="TagName" />
             <End Role="File" EntitySet="File" />
@@ -365,7 +349,7 @@
           <Property Name="AccountTypeID" Type="Int32" Nullable="false" />
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ResetPassWordCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ResetPassWordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AccountType" Relationship="Self.FK__Account__Account__31EC6D26" FromRole="Account" ToRole="AccountType" />
           <NavigationProperty Name="AccountInfo" Relationship="Self.FK__Account__Account__32E0915F" FromRole="Account" ToRole="AccountInfo" />
           <NavigationProperty Name="AccountType1" Relationship="Self.FK__Account__Account__4F7CD00D" FromRole="Account" ToRole="AccountType" />
@@ -402,11 +386,11 @@
           </Key>
           <Property Name="FileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountID" Type="Int32" Nullable="false" />
-          <Property Name="TagID" Type="Int32" Nullable="false" />
+          <Property Name="TagID" Type="Int32" />
           <Property Name="FileTypeID" Type="Int32" Nullable="false" />
-          <Property Name="FolderID" Type="Int32" Nullable="false" />
+          <Property Name="FolderID" Type="Int32" />
           <Property Name="TimeID" Type="Int32" Nullable="false" />
-          <Property Name="Location" Type="Int32" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="FileName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Size" Type="Double" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -417,8 +401,7 @@
           <NavigationProperty Name="FileType1" Relationship="Self.FK__File__FileTypeID__52593CB8" FromRole="File" ToRole="FileType" />
           <NavigationProperty Name="Folder" Relationship="Self.FK__File__FolderID__35BCFE0A" FromRole="File" ToRole="Folder" />
           <NavigationProperty Name="Folder1" Relationship="Self.FK__File__FolderID__534D60F1" FromRole="File" ToRole="Folder" />
-          <NavigationProperty Name="TagName" Relationship="Self.FK__File__TagID__36B12243" FromRole="File" ToRole="TagName" />
-          <NavigationProperty Name="TagName1" Relationship="Self.FK__File__TagID__5441852A" FromRole="File" ToRole="TagName" />
+          <NavigationProperty Name="TagName" Relationship="Self.FK__File__TagID__5441852A" FromRole="File" ToRole="TagName" />
           <NavigationProperty Name="TimeKeep" Relationship="Self.FK__File__TimeID__37A5467C" FromRole="File" ToRole="TimeKeep" />
           <NavigationProperty Name="TimeKeep1" Relationship="Self.FK__File__TimeID__5535A963" FromRole="File" ToRole="TimeKeep" />
         </EntityType>
@@ -426,8 +409,8 @@
           <Key>
             <PropertyRef Name="FileTypeID" />
           </Key>
-          <Property Name="FileTypeID" Type="Int32" Nullable="false" />
-          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FileTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Files" Relationship="Self.FK__File__FileTypeID__34C8D9D1" FromRole="FileType" ToRole="File" />
           <NavigationProperty Name="Files1" Relationship="Self.FK__File__FileTypeID__52593CB8" FromRole="FileType" ToRole="File" />
         </EntityType>
@@ -439,7 +422,7 @@
           <Property Name="TimeID" Type="Int32" Nullable="false" />
           <Property Name="FolderName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="TotalSize" Type="Double" />
-          <Property Name="Location" Type="Int32" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Parent" Type="Int32" />
           <NavigationProperty Name="Files" Relationship="Self.FK__File__FolderID__35BCFE0A" FromRole="Folder" ToRole="File" />
           <NavigationProperty Name="Files1" Relationship="Self.FK__File__FolderID__534D60F1" FromRole="Folder" ToRole="File" />
@@ -451,9 +434,8 @@
             <PropertyRef Name="TagID" />
           </Key>
           <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NameTag" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Files" Relationship="Self.FK__File__TagID__36B12243" FromRole="TagName" ToRole="File" />
-          <NavigationProperty Name="Files1" Relationship="Self.FK__File__TagID__5441852A" FromRole="TagName" ToRole="File" />
+          <Property Name="NameTag" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Files" Relationship="Self.FK__File__TagID__5441852A" FromRole="TagName" ToRole="File" />
         </EntityType>
         <EntityType Name="TimeKeep">
           <Key>
@@ -565,7 +547,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FolderID__35BCFE0A">
-          <End Role="Folder" Type="Self.Folder" Multiplicity="1" />
+          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
           <End Role="File" Type="Self.File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Folder">
@@ -577,7 +559,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FolderID__534D60F1">
-          <End Role="Folder" Type="Self.Folder" Multiplicity="1" />
+          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
           <End Role="File" Type="Self.File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Folder">
@@ -588,20 +570,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__File__TagID__36B12243">
-          <End Role="TagName" Type="Self.TagName" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TagName">
-              <PropertyRef Name="TagID" />
-            </Principal>
-            <Dependent Role="File">
-              <PropertyRef Name="TagID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__File__TagID__5441852A">
-          <End Role="TagName" Type="Self.TagName" Multiplicity="1" />
+          <End Role="TagName" Type="Self.TagName" Multiplicity="0..1" />
           <End Role="File" Type="Self.File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TagName">
@@ -707,10 +677,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__File__FolderID__534D60F1" Association="Self.FK__File__FolderID__534D60F1">
             <End Role="Folder" EntitySet="Folders" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__TagID__36B12243" Association="Self.FK__File__TagID__36B12243">
-            <End Role="TagName" EntitySet="TagNames" />
             <End Role="File" EntitySet="Files" />
           </AssociationSet>
           <AssociationSet Name="FK__File__TagID__5441852A" Association="Self.FK__File__TagID__5441852A">

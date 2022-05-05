@@ -16,11 +16,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
     {
         public int FileID { get; set; }
         public int AccountID { get; set; }
-        public int TagID { get; set; }
+        public Nullable<int> TagID { get; set; }
         public int FileTypeID { get; set; }
-        public int FolderID { get; set; }
+        public Nullable<int> FolderID { get; set; }
         public int TimeID { get; set; }
-        public Nullable<int> Location { get; set; }
+        public string Location { get; set; }
         public string FileName { get; set; }
         public Nullable<double> Size { get; set; }
         public string Description { get; set; }
@@ -33,7 +33,6 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
         public virtual Folder Folder { get; set; }
         public virtual Folder Folder1 { get; set; }
         public virtual TagName TagName { get; set; }
-        public virtual TagName TagName1 { get; set; }
         public virtual TimeKeep TimeKeep { get; set; }
         public virtual TimeKeep TimeKeep1 { get; set; }
     }
