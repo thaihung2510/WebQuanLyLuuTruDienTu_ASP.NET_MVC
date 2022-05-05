@@ -393,6 +393,7 @@
     <Content Include="Content\assets\js\profile-demo.js" />
     <Content Include="Content\assets\js\progress-bar.js" />
     <Content Include="Content\assets\js\rickshaw.js" />
+    <Content Include="Content\assets\js\script.js" />
     <Content Include="Content\assets\js\select2.js" />
     <Content Include="Content\assets\js\settings.js" />
     <Content Include="Content\assets\js\sparkline.js" />
@@ -1129,6 +1130,7 @@
     <Content Include="Views\User\DetailUser.cshtml" />
     <Content Include="Views\User\ForgotPassword.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\Home\TrangChu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

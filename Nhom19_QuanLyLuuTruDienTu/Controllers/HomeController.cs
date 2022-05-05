@@ -10,6 +10,10 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult TrangChu()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
             List<ObjFile> ObjFiles = new List<ObjFile>();
