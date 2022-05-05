@@ -35,31 +35,31 @@
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             @*<div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="index.html"><img src="../../Content/assets/images/logo.svg" alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="../../Content/assets/images/logo-mini.svg" alt="logo" /></a>
-            </div>*@
+                    <a class="sidebar-brand brand-logo" href="index.html"><img src="../../Content/assets/images/logo.svg" alt="logo" /></a>
+                    <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="../../Content/assets/images/logo-mini.svg" alt="logo" /></a>
+                </div>*@
             <ul class="nav">
-                @{ 
+                @{
                     if (Session["Username"] != null)
                     {
-                <li class="nav-item profile">
-                                    <div class="profile-desc">
-                                        <div class="profile-pic">
-                                            <div class="count-indicator">
-                                                <img class="img-xs rounded-circle " src="../../Content/assets/images/faces/face15.jpg" alt="">
-                                                <span class="count bg-success"></span>
-                                            </div>
-                                            <div class="profile-name">
-                                                <h5 class="mb-0 font-weight-normal">@Session["username"]</h5>
-                                                <span>Normal Member</span>
-                                            </div>
-                                        </div>
-                                      
-                                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-                                          
-                                    <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                                        @{ 
-                                            var a = Session["Username"];
+                        <li class="nav-item profile">
+                            <div class="profile-desc">
+                                <div class="profile-pic">
+                                    <div class="count-indicator">
+                                        <img class="img-xs rounded-circle " src="../../Content/assets/images/faces/face15.jpg" alt="">
+                                        <span class="count bg-success"></span>
+                                    </div>
+                                    <div class="profile-name">
+                                        <h5 class="mb-0 font-weight-normal">@Session["username"]</h5>
+                                        <span>Normal Member</span>
+                                    </div>
+                                </div>
+
+                                <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+
+                                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
+                                    @{
+                                        var a = Session["Username"];
                                         <a href="@Url.Action("DetailUser", "User", new { username = a.ToString() })" class="dropdown-item preview-item">
                                             <div class="preview-thumbnail">
                                                 <div class="preview-icon bg-dark rounded-circle">
@@ -70,34 +70,34 @@
                                                 <p class="preview-subject ellipsis mb-1 text-small">Thông tin </p>
                                             </div>
                                         </a>
-                                            }
-                                        <div class="dropdown-divider"></div>
-                                        <a href="#" class="dropdown-item preview-item">
-                                            <div class="preview-thumbnail">
-                                                <div class="preview-icon bg-dark rounded-circle">
-                                                    <i class="mdi mdi-onepassword  text-info"></i>
-                                                </div>
+                                    }
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-dark rounded-circle">
+                                                <i class="mdi mdi-onepassword  text-info"></i>
                                             </div>
-                                            <div class="preview-item-content">
-                                                <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-dark rounded-circle">
+                                                <i class="mdi mdi-calendar-today text-success"></i>
                                             </div>
-                                        </a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="#" class="dropdown-item preview-item">
-                                            <div class="preview-thumbnail">
-                                                <div class="preview-icon bg-dark rounded-circle">
-                                                    <i class="mdi mdi-calendar-today text-success"></i>
-                                                </div>
-                                            </div>
-                                            <div class="preview-item-content">
-                                                <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    </div>
-                </li>
-                        }
+                                        </div>
+                                        <div class="preview-item-content">
+                                            <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
                     }
+                }
                 <li class="nav-item nav-category">
                     <span class="nav-link">Your Fate</span>
                 </li>
@@ -185,6 +185,7 @@
                 </li>
             </ul>
         </nav>
+
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_navbar.html -->
@@ -199,7 +200,7 @@
                     <ul class="navbar-nav w-100">
                         <li class="nav-item w-100">
                             <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                                <input type="text" class="form-control" placeholder="Search products">
+                                <input type="text" class="form-control" id="Search" placeholder="Search products">
                             </form>
                         </li>
                     </ul>
@@ -401,11 +402,11 @@
                 </div>
                 <!-- partial:partials/_footer.html -->
                 @*<footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
-                    </div>
-                </footer>*@
+                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
+                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+                        </div>
+                    </footer>*@
                 <!-- partial -->
             </div>
         </div>
@@ -432,3 +433,23 @@
     <!-- End custom js for this page -->
 </body>
 </html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+</script>

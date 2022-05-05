@@ -116,6 +116,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             TempData["Message"] = "files uploaded successfully";
             return RedirectToAction("Index");
         }
+
+        public ActionResult Search(string searching)
+        {
+            return View(db.Files.Where(x => x.FileName.Contains(searching) || searching == null).ToList());
+        }
     } 
     
 }

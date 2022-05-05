@@ -7,7 +7,8 @@
 @model IEnumerable<ObjFile>
 
 <div style="width: 500px; font-family: Arial;">
-    @using (@Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+    @using (@Html.BeginForm("Search", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         if (TempData["Message"] != null)
         {
@@ -31,7 +32,7 @@
         </table>
 
     }
-    <br/>
+    <br />
     <table class="table table-hover table-dark">
         <tr>
             <th class="sorting_asc">
@@ -48,7 +49,7 @@
 
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="Search">
                 <td class="sorting_1">
                     @Html.DisplayFor(modelItem => item.File)
                 </td>
@@ -66,4 +67,23 @@
         }
     </table>
 </div>
-
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+</script>
