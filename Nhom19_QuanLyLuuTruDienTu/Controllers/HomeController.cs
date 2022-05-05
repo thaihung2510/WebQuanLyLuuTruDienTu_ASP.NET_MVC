@@ -11,6 +11,10 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
     public class HomeController : Controller
     {
+        public ActionResult TrangChu()
+        {
+            return View();
+        }
 
         QLLTDTEntities db = new QLLTDTEntities();
 
