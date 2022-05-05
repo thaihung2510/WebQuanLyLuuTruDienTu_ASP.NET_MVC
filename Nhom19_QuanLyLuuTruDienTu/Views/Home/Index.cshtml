@@ -8,7 +8,7 @@
 
 <div style="width: 500px; font-family: Arial;">
 
-    @using (@Html.BeginForm("Search", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (@Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         if (TempData["Message"] != null)
         {
@@ -32,7 +32,15 @@
         </table>
 
     }
+    @using (Html.BeginForm("Folder", "Home", FormMethod.Post))
+            {
+                <input type="text" name="foldername" />
+                <input type="submit" name="Create Folder" />
+                <hr />
+                <h2>@ViewBag.message</h2>
+            }
     <br />
+
     <table class="table table-hover table-dark">
         <tr>
             <th class="sorting_asc">

@@ -80,10 +80,40 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     return "Unknown";
             }
         }
+        [HttpPost]
+        public ActionResult Folder(string foldername) //CreateFolder
+        {
+            string folder = Server.MapPath(string.Format("~/Content/Files/{0}/{1}/", (string)Session["Username"], foldername));
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+                ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
+                //Folder _folder = new Folder();
+                //_folder.FolderName = foldername;
+                //_folder.Parent = (string)Session["Username"];
+                //db.Folders.Add(_folder);
+
+                //TimeKeep _timeKeep = new TimeKeep();
+                //DateTime _createdate = DateTime.Now;
+                //_timeKeep.CreateDate = _createdate;
+                //DateTime _modifydate = DateTime.Now;
+                //_timeKeep.ModifiedDate = _modifydate;
+                //DateTime _deletedate = DateTime.Now;
+                //_timeKeep.DeletedDate = _deletedate;
+                //db.TimeKeeps.Add(_timeKeep);
+
+                //db.SaveChanges();
+            }
+            else
+            {
+                ViewBag.message = "Folder" + foldername.ToString() + "Đã tồn tại";
+            }
+            return RedirectToAction("Index");
+        }
 
 
         [HttpPost]
-        public ActionResult Index(ObjFile doc)
+        public ActionResult Index(ObjFile doc) //Upload
         {
             foreach (var file in doc.files)
             {

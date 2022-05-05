@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Docx\Nam3HK2\CNPMNC GIT\Nhom19_QuanLyLuuTruDienTu\models\QLLTDT.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Docx\Nam 3 HK 2\CNPM NC\Git\WebQuanLyLuuTruDienTu_ASP.NET_MVC\Nhom19_QuanLyLuuTruDienTu\models\QLLTDT.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

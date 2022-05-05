@@ -26,7 +26,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
         public string FolderName { get; set; }
         public Nullable<double> TotalSize { get; set; }
         public Nullable<int> Location { get; set; }
-        public Nullable<int> Parent { get; set; }
+        public string Parent { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<File> Files { get; set; }
