@@ -46,9 +46,20 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         }
         public FileResult Download(string fileName) //downloading
         {
-            string fullPath = Path.Combine(Server.MapPath("~/Content/Files"), fileName);
-            byte[] fileBytes = System.IO.File.ReadAllBytes(fullPath);
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            string fullPath = "";
+            byte[] fileBytes;
+            if (Session["Username"] == null)
+            {
+                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), fileName);
+                fileBytes = System.IO.File.ReadAllBytes(fullPath);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            else
+            {
+                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"], fileName);
+                fileBytes = System.IO.File.ReadAllBytes(fullPath);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
         }
         private string GetFileType(string fileExtension) //file type
         {
