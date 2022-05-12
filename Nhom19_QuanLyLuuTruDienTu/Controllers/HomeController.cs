@@ -17,6 +17,14 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         public ActionResult Index()
         {
             List<ObjFile> ObjFiles = new List<ObjFile>();
+
+            var folders = GetFolders();
+            var files = GetFiles();
+
+            IndexVM model = new IndexVM();
+            model.Folders = folders;
+            model.Files = files;
+
             if(Session["Username"] == null)
             {
                 foreach (string strfile in Directory.GetFiles(Server.MapPath("~/Content/Files")))
@@ -42,8 +50,35 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 }
             }
 
-            return View(ObjFiles);
+            return View(model);
         }
+
+        //GetFolders GetFiles for each user
+        private List<Folder> GetFolders()
+        {
+            if (Session["Username"] == null)
+            {
+                List<Folder> folist = db.Folders.ToList();
+                List<Folder> foname = folist.Where(x => x.FolderName.Substring(0) == "spkt09").ToList();
+                return folist;
+            }
+            else
+            {
+                List<Folder> folist = db.Folders.ToList();
+                List<Folder> foname = folist.Where(x => x.Parent == (string)Session["Username"]).ToList();
+                return foname;
+            }   
+        }
+
+
+        private List<File> GetFiles()
+        {
+            List<File> filist = db.Files.ToList();
+            return filist;
+        }
+
+
+
         public FileResult Download(string fileName) //downloading
         {
             string fullPath = "";
@@ -80,6 +115,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     return "Unknown";
             }
         }
+        
         [HttpPost]
         public ActionResult Folder(string foldername) //CreateFolder
         {
@@ -88,21 +124,21 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             {
                 Directory.CreateDirectory(folder);
                 ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
-                //Folder _folder = new Folder();
-                //_folder.FolderName = foldername;
-                //_folder.Parent = (string)Session["Username"];
-                //db.Folders.Add(_folder);
+                Folder _folder = new Folder();
+                _folder.FolderName = foldername;
+                _folder.Parent = (string)Session["Username"];
+                db.Folders.Add(_folder);
 
-                //TimeKeep _timeKeep = new TimeKeep();
-                //DateTime _createdate = DateTime.Now;
-                //_timeKeep.CreateDate = _createdate;
-                //DateTime _modifydate = DateTime.Now;
-                //_timeKeep.ModifiedDate = _modifydate;
-                //DateTime _deletedate = DateTime.Now;
-                //_timeKeep.DeletedDate = _deletedate;
-                //db.TimeKeeps.Add(_timeKeep);
+                TimeKeep _timeKeep = new TimeKeep();
+                DateTime _createdate = DateTime.Now;
+                _timeKeep.CreateDate = _createdate;
+                DateTime _modifydate = DateTime.Now;
+                _timeKeep.ModifiedDate = _modifydate;
+                DateTime _deletedate = DateTime.Now;
+                _timeKeep.DeletedDate = _deletedate;
+                db.TimeKeeps.Add(_timeKeep);
 
-                //db.SaveChanges();
+                db.SaveChanges();
             }
             else
             {

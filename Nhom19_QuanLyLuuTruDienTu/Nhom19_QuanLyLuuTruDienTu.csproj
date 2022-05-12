@@ -129,6 +129,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -152,6 +153,7 @@
     <Compile Include="models\Folder.cs">
       <DependentUpon>QLLTDT.tt</DependentUpon>
     </Compile>
+    <Compile Include="models\IndexVM.cs" />
     <Compile Include="models\QLLTDT.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -269,6 +271,8 @@
     <Content Include="Content\assets\images\file-icons\64\006-record.png" />
     <Content Include="Content\assets\images\file-icons\64\007-folder.png" />
     <Content Include="Content\assets\images\file-icons\64\008-archive.png" />
+    <Content Include="Content\assets\images\filepng.png" />
+    <Content Include="Content\assets\images\folderpng.png" />
     <Content Include="Content\assets\images\lightbox\play-button.png" />
     <Content Include="Content\assets\images\lightbox\thumb-v-v-1.jpg" />
     <Content Include="Content\assets\images\lightbox\thumb-v-v-2.jpg" />
@@ -1126,6 +1130,8 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\RegisterUser.cshtml" />
     <Content Include="Views\User\DetailUser.cshtml" />
+    <Content Include="Views\Folder\Index.cshtml" />
+    <Content Include="Views\Folder\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
