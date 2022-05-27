@@ -15,6 +15,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         // GET: Folder
         public ActionResult Index()
         {
+
             return View();
         }
 
@@ -23,25 +24,21 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             var chitiet = db.Folders.Find(id);
 
-            var folders = GetFolders();
+            var folders = GetFolders(id);
+            Session["FolderID"] = id;
             var files = GetFiles();
 
             IndexVM model = new IndexVM();
-            string myid = id.ToString();
-            List<Folder> folist = db.Folders.ToList();
-            List<Folder> foname = folist.Where(x => x.Parent == myid).ToList();
-            model.Folders = foname;
+            model.Folders = folders;
             model.Files = files;
 
             return View(model);
         }
 
-        private List<Folder> GetFolders()
+        private List<Folder> GetFolders(int id)
         {
-            List<Folder> folist = db.Folders.ToList();
             Folder _folderid = new Folder();
-            string myid = _folderid.FolderID.ToString();
-            List<Folder> foname = folist.Where(x => x.Parent == myid).ToList();
+            List<Folder> foname = db.Folders.Where(x => x.Parent == id).ToList();
             return foname;
         }
 
@@ -60,18 +57,28 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         // POST: Folder/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(string foldername)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
+            Folder _folder = new Folder();
+            _folder.FolderName = foldername;
+            var _folderid = (int)Session["FolderID"];
+            var parent = db.Folders.Where(s => s.Parent == _folderid).FirstOrDefault();
+            _folder.Parent = _folderid;
+            db.Folders.Add(_folder);
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            TimeKeep _timeKeep = new TimeKeep();
+            DateTime _createdate = DateTime.Now;
+            _timeKeep.CreateDate = _createdate;
+            DateTime _modifydate = DateTime.Now;
+            _timeKeep.ModifiedDate = _modifydate;
+            DateTime _deletedate = DateTime.Now;
+            _timeKeep.DeletedDate = _deletedate;
+            db.TimeKeeps.Add(_timeKeep);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Folder/Edit/5

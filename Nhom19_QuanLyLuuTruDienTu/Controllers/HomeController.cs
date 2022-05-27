@@ -59,14 +59,15 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             if (Session["Username"] == null)
             {
                 List<Folder> folist = db.Folders.ToList();
-                List<Folder> foname = folist.Where(x => x.FolderName.Substring(0) == "spkt09").ToList();
+                
                 return folist;
             }
             else
             {
-                List<Folder> folist = db.Folders.ToList();
-                List<Folder> foname = folist.Where(x => x.Parent == (string)Session["Username"]).ToList();
-                return foname;
+                string str =(string)Session["Username"];
+                var parent = db.Folders.Where(s => s.FolderName == str).FirstOrDefault();
+                List <Folder> folist = db.Folders.Where(x => x.Parent == parent.FolderID).ToList();
+                return folist;
             }   
         }
 
@@ -119,31 +120,52 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         [HttpPost]
         public ActionResult Folder(string foldername) //CreateFolder
         {
-            string folder = Server.MapPath(string.Format("~/Content/Files/{0}/{1}/", (string)Session["Username"], foldername));
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-                ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
-                Folder _folder = new Folder();
-                _folder.FolderName = foldername;
-                _folder.Parent = (string)Session["Username"];
-                db.Folders.Add(_folder);
+            //string folder = Server.MapPath(string.Format("~/Content/Files/{0}/{1}/", (string)Session["Username"], foldername));
+            //if (!Directory.Exists(folder))
+            //{
+            //    Directory.CreateDirectory(folder);
+            //    ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
+            //    Folder _folder = new Folder();
+            //    _folder.FolderName = foldername;
+            //    string str = (string)Session["Username"];
+            //    var parent = db.Folders.Where(s => s.FolderName == str).FirstOrDefault();
+            //    _folder.Parent = parent.FolderID;
+            //    db.Folders.Add(_folder);
 
-                TimeKeep _timeKeep = new TimeKeep();
-                DateTime _createdate = DateTime.Now;
-                _timeKeep.CreateDate = _createdate;
-                DateTime _modifydate = DateTime.Now;
-                _timeKeep.ModifiedDate = _modifydate;
-                DateTime _deletedate = DateTime.Now;
-                _timeKeep.DeletedDate = _deletedate;
-                db.TimeKeeps.Add(_timeKeep);
+            //    TimeKeep _timeKeep = new TimeKeep();
+            //    DateTime _createdate = DateTime.Now;
+            //    _timeKeep.CreateDate = _createdate;
+            //    DateTime _modifydate = DateTime.Now;
+            //    _timeKeep.ModifiedDate = _modifydate;
+            //    DateTime _deletedate = DateTime.Now;
+            //    _timeKeep.DeletedDate = _deletedate;
+            //    db.TimeKeeps.Add(_timeKeep);
 
-                db.SaveChanges();
-            }
-            else
-            {
-                ViewBag.message = "Folder" + foldername.ToString() + "Đã tồn tại";
-            }
+            //    db.SaveChanges();
+            //}
+            //else
+            //{
+            //    ViewBag.message = "Folder" + foldername.ToString() + "Đã tồn tại";
+            //}
+            ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
+            Folder _folder = new Folder();
+            _folder.FolderName = foldername;
+            string str = (string)Session["Username"];
+            var parent = db.Folders.Where(s => s.FolderName == str).FirstOrDefault();
+            _folder.Parent = parent.FolderID;
+            db.Folders.Add(_folder);
+
+            TimeKeep _timeKeep = new TimeKeep();
+            DateTime _createdate = DateTime.Now;
+            _timeKeep.CreateDate = _createdate;
+            DateTime _modifydate = DateTime.Now;
+            _timeKeep.ModifiedDate = _modifydate;
+            DateTime _deletedate = DateTime.Now;
+            _timeKeep.DeletedDate = _deletedate;
+            db.TimeKeeps.Add(_timeKeep);
+
+            db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -159,6 +181,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     File _file = new models.File();
                     _file.AccountID = (int)Session["UserID"];
                     _file.FileTypeID = 1;
+                    _file.Status = true;
 
                     var fileName = Path.GetFileName(file.FileName);
                     _file.FileName = fileName;

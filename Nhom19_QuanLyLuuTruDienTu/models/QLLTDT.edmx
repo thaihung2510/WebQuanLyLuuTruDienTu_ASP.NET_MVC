@@ -67,7 +67,7 @@
           <Property Name="FolderName" Type="nvarchar" MaxLength="255" />
           <Property Name="TotalSize" Type="float" />
           <Property Name="Location" Type="int" />
-          <Property Name="Parent" Type="nvarchar" MaxLength="255" />
+          <Property Name="Parent" Type="int" />
         </EntityType>
         <EntityType Name="TagName">
           <Key>
@@ -423,7 +423,7 @@
           <Property Name="FolderName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="TotalSize" Type="Double" />
           <Property Name="Location" Type="Int32" />
-          <Property Name="Parent" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Parent" Type="Int32" />
           <NavigationProperty Name="Files" Relationship="Self.FK__File__FolderID__35BCFE0A" FromRole="Folder" ToRole="File" />
           <NavigationProperty Name="Files1" Relationship="Self.FK__File__FolderID__534D60F1" FromRole="Folder" ToRole="File" />
           <NavigationProperty Name="TimeKeep" Relationship="Self.FK__Folder__TimeID__38996AB5" FromRole="Folder" ToRole="TimeKeep" />

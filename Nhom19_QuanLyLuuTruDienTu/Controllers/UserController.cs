@@ -34,6 +34,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 db.Configuration.ValidateOnSaveEnabled = false;
                 Session["Username"] = _username;
                 Session["Password"] = _pass;
+                string str = (string)Session["Username"];
                 //Get session id theo user
                 var userid = db.Accounts
                     .Where(m => m.Username == _username)
