@@ -66,7 +66,7 @@
 </style>
 <div style="width: 500px; float: left; font-family: Arial;">
 
-    @using (@Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (@Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         if (TempData["Message"] != null)
         {
@@ -98,15 +98,20 @@
         <h2>@ViewBag.message</h2>
     }
     <br />
+
+
     @foreach (var folders in Model.Folders)
     {
         <div class="foldercontainterarea">
-            <a href="@Url.Action("Details", new { id = @folders.FolderID})">
-                <div class="foldercard">
-                    <img src="~/Content/assets/images/folderpng.png" width="100" />
-                    <p>@folders.FolderName</p>
-                </div>
-            </a>
+            <div class="foldercard">
+                @Html.ActionLink("X", "Foldel", new { id = @folders.FolderID})
+                <a href="@Url.Action("Details", new { id = @folders.FolderID})">
+                    <div>
+                        <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
+                        <p>@folders.FolderName</p>
+                    </div>
+                </a>
+            </div>
         </div>
     }
     <table class="table table-hover table-dark">
@@ -133,7 +138,7 @@
                     @Html.DisplayFor(modelItem => item.Size)
                 </td>
                 <td class="sorting_1">
-                    @Html.DisplayFor(modelItem => item.FileType)
+                    @Html.DisplayFor(modelItem => item.FileType.TypeName)
                 </td>
                 <th class="sorting">
                     @Html.ActionLink("Download", "Download", new { fileName = item.FileName })

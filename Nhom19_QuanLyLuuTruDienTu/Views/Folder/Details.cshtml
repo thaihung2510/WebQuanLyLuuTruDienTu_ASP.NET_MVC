@@ -64,13 +64,13 @@
             margin: 25px;
         }
 
-    .file-man-box:hover .file-close {
+    .foldercard:hover .file-close {
         visibility: visible;
     }
 </style>
 <div style="width: 500px; float: left; font-family: Arial;">
 
-    @using (@Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (@Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         if (TempData["Message"] != null)
         {
@@ -102,17 +102,21 @@
         <h2>@ViewBag.message</h2>
     }
     <br />
+    
+    
     @foreach (var folders in Model.Folders)
     {
-        <div class="foldercontainterarea">
+    <div class="foldercontainterarea">
+        <div class="foldercard">
+            @Html.ActionLink("X", "Foldel", new { id = @folders.FolderID}, new { onclick = "return confirm('Xóa Thư mục sẽ xóa tất cả những gì bên trong, bạn chắc chứ?');" })
             <a href="@Url.Action("Details", new { id = @folders.FolderID})">
-                <div class="foldercard">
-                    <a href="" class="file-close"><i class="fa fa-times-circle" style="color:red; margin-left: 130px"></i></a>
+                <div>
                     <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
                     <p>@folders.FolderName</p>
                 </div>
             </a>
         </div>
+    </div>
     }
 
     <table class="table table-hover table-dark">

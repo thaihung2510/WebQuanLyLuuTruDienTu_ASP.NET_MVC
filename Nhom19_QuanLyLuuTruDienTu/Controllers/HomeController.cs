@@ -182,6 +182,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     _file.AccountID = (int)Session["UserID"];
                     _file.FileTypeID = 1;
                     _file.Status = true;
+                    int _folderid = (int)Session["FolderID"];
+                    _file.FolderID = _folderid;
 
                     var fileName = Path.GetFileName(file.FileName);
                     _file.FileName = fileName;
@@ -203,7 +205,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 }
             }
             TempData["Message"] = "files uploaded successfully";
-            return RedirectToAction("Index");
+            int foluserid = (int)Session["FolderID"];
+            return RedirectToAction("Details", "Folder", new { id = foluserid });
         }
 
         public ActionResult Search(string searching)
