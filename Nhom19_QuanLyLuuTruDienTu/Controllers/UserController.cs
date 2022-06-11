@@ -63,6 +63,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     db.Folders.Add(_folder);
                     db.SaveChanges();
                     Directory.CreateDirectory(folder);
+
                 }
 
                 return RedirectToAction("Index", "Home");
@@ -167,8 +168,70 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             var accountinfo = db.AccountInfoes.Where(s => s.AccountInfoID == user.AccountInfoID).SingleOrDefault();
             return View(accountinfo);
         }
+        public ActionResult EditUser(int id)
+        {
+            if (Session["user_email"] != null)
+            {
+                var a = Session["user_email"];
+                return View(db.AccountInfoes.Where(s => s.Email == a.ToString()).FirstOrDefault());
+            }
+            return View(db.AccountInfoes.Where(s => s.AccountInfoID == id).FirstOrDefault());
+        }
+        [HttpPost]
+        public ActionResult EditUser(int id, AccountInfo user)
+        {
+            db.AccountInfoes.Attach(user);
+            //user.ErrorLogin = "NULL";
+            if (user.Address == null)
+            {
+                user.Address = "NULL";
+            }
+            //if (user.ResetPasswordCode == null)
+            //{
+            //    user.ResetPasswordCode = Guid.NewGuid().ToString();
+            //}
 
-        public ActionResult ForgotPassword()
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            ViewBag.Success = "Đổi thành công";
+            return View();
+        }
+        public ActionResult UserPassEdit(string username)
+        {
+            if (Session["Username"] != null)
+            {
+                var a = Session["Username"];
+                return View(db.Accounts.Where(s => s.Username == a.ToString()).FirstOrDefault());
+            }
+            return View(db.Accounts.Where(s => s.Username == username).FirstOrDefault());
+        }
+
+        [HttpPost]
+        public ActionResult UserPassEdit(Account user)
+        {
+            db.Accounts.Attach(user);
+
+            if (user.Password == null)
+            {
+                user.Password = "";
+                return View();
+            }
+            if (user.Password != user.ConfirmPass)
+            {
+                ViewBag.ErrorRegister = "Sai Pass Confirm";
+                return View();
+            }
+
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            ViewBag.ErrorRegister = "Đổi Pass thành công";
+            return View();
+
+
+        }
+    
+
+    public ActionResult ForgotPassword()
         {
             return View();
         }
