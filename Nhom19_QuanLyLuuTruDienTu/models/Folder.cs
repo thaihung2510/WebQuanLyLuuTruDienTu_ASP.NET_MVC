@@ -25,8 +25,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
         public int TimeID { get; set; }
         public string FolderName { get; set; }
         public Nullable<double> TotalSize { get; set; }
-        public string Location { get; set; }
-        public Nullable<int> Parent { get; set; }
+        public Nullable<int> Location { get; set; }
+        public string Parent { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<File> Files { get; set; }

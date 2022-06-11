@@ -10,7 +10,8 @@
 <style>
     a {
         color: inherit;
-    } 
+    }
+
     .fileinfo-container {
         height: 700px;
         width: 500px;
@@ -44,6 +45,7 @@
         float: left;
         margin: 25px;
     }
+
         .foldercard:hover {
             height: 150px;
             width: 150px;
@@ -88,7 +90,7 @@
         </table>
 
     }
-    @using (Html.BeginForm("Folder", "Home", FormMethod.Post))
+    @using (Html.BeginForm("Create", "Folder", FormMethod.Post))
     {
         <input type="text" name="foldername" />
         <input type="submit" name="Create Folder" />
@@ -99,7 +101,7 @@
     @foreach (var folders in Model.Folders)
     {
         <div class="foldercontainterarea">
-            <a href="@Url.Action("Details","Folder", new { id = @folders.FolderID})">
+            <a href="@Url.Action("Details", new { id = @folders.FolderID})">
                 <div class="foldercard">
                     <img src="~/Content/assets/images/folderpng.png" width="100" />
                     <p>@folders.FolderName</p>
@@ -119,7 +121,6 @@
                 Type
             </th>
             <th class="sorting"></th>
-            <th class="sorting"></th>
         </tr>
 
         @foreach (var item in Model.Files)
@@ -137,59 +138,56 @@
                 <th class="sorting">
                     @Html.ActionLink("Download", "Download", new { fileName = item.FileName })
                 </th>
-                <th class="sorting">
-                    @Html.ActionLink("Delete", "Delete", new { fileName = item.FileName })
-                </th>
             </tr>
 
         }
     </table>
 </div>
 
-    <div class="fileinfo-container">
-        <div class="fileinfo-content">
-            <img src="~/Content/assets/images/filepng.png" height=200 style="margin: 40px 0px 0px 140px" />
-            <table style="height: 287px; margin: 30px 0px 0px 30px; vertical-align: text-bottom;">
-                <tr>
-                    <th>File</th>
-                    <td rowspan="4"><p id="test" style="margin-left: 20px; line-height: 1.6"></p></td>
-                </tr>
-                <tr>
-                    <th>Size</th>
-                </tr>
-                <tr>
-                    <th>Type</th>
-                </tr>
-                <tr>
-                    <th>Download</th>
-                </tr>
-            </table>
-        </div>
+<div class="fileinfo-container">
+    <div class="fileinfo-content">
+        <img src="~/Content/assets/images/filepng.png" height=200 style="margin: 40px 0px 0px 140px" />
+        <table style="height: 287px; margin: 30px 0px 0px 30px; vertical-align: text-bottom;">
+            <tr>
+                <th>File</th>
+                <td rowspan="4"><p id="test" style="margin-left: 20px; line-height: 1.6"></p></td>
+            </tr>
+            <tr>
+                <th>Size</th>
+            </tr>
+            <tr>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <th>Download</th>
+            </tr>
+        </table>
     </div>
+</div>
 
 
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            function Contains(text_one, text_two) {
-                if (text_one.indexOf(text_two) != -1)
-                    return true;
-            }
-            $("#Search").keyup(function () {
-                var searchText = $("#Search").val().toLowerCase();
-                $(".Search").each(function () {
-                    if (!Contains($(this).text().toLowerCase(), searchText)) {
-                        $(this).hide();
-                    }
-                    else {
-                        $(this).show();
-                    }
-                });
-            });
-            $('table tbody tr').click(function () {
-                var text = $(this).find('td:first-child')[0].innerText;
-                console.log(text);
-                document.getElementById("test").innerText = $(this).text();
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
             });
         });
-    </script>
+        $('table tbody tr').click(function () {
+            var text = $(this).find('td:first-child')[0].innerText;
+            console.log(text);
+            document.getElementById("test").innerText = $(this).text();
+        });
+    });
+</script>

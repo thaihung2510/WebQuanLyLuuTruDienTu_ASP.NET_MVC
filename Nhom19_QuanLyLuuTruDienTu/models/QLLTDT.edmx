@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QLLTDTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QLLTDTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="AccountID" />
@@ -66,8 +66,8 @@
           <Property Name="TimeID" Type="int" Nullable="false" />
           <Property Name="FolderName" Type="nvarchar" MaxLength="255" />
           <Property Name="TotalSize" Type="float" />
-          <Property Name="Location" Type="varchar(max)" />
-          <Property Name="Parent" Type="int" />
+          <Property Name="Location" Type="int" />
+          <Property Name="Parent" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TagName">
           <Key>
@@ -335,11 +335,80 @@
             <End Role="Folder" EntitySet="Folder" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QLLTDTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="QLLTDTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="QLLTDTModel.Account" />
+          <EntitySet Name="AccountInfoes" EntityType="QLLTDTModel.AccountInfo" />
+          <EntitySet Name="AccountTypes" EntityType="QLLTDTModel.AccountType" />
+          <EntitySet Name="Files" EntityType="QLLTDTModel.File" />
+          <EntitySet Name="FileTypes" EntityType="QLLTDTModel.FileType" />
+          <EntitySet Name="Folders" EntityType="QLLTDTModel.Folder" />
+          <EntitySet Name="TagNames" EntityType="QLLTDTModel.TagName" />
+          <EntitySet Name="TimeKeeps" EntityType="QLLTDTModel.TimeKeep" />
+          <AssociationSet Name="FK__Account__Account__31EC6D26" Association="QLLTDTModel.FK__Account__Account__31EC6D26">
+            <End Role="AccountType" EntitySet="AccountTypes" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Account__Account__32E0915F" Association="QLLTDTModel.FK__Account__Account__32E0915F">
+            <End Role="AccountInfo" EntitySet="AccountInfoes" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Account__Account__4F7CD00D" Association="QLLTDTModel.FK__Account__Account__4F7CD00D">
+            <End Role="AccountType" EntitySet="AccountTypes" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Account__Account__5070F446" Association="QLLTDTModel.FK__Account__Account__5070F446">
+            <End Role="AccountInfo" EntitySet="AccountInfoes" />
+            <End Role="Account" EntitySet="Accounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__AccountID__33D4B598" Association="QLLTDTModel.FK__File__AccountID__33D4B598">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__AccountID__5165187F" Association="QLLTDTModel.FK__File__AccountID__5165187F">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__FileTypeID__34C8D9D1" Association="QLLTDTModel.FK__File__FileTypeID__34C8D9D1">
+            <End Role="FileType" EntitySet="FileTypes" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__FileTypeID__52593CB8" Association="QLLTDTModel.FK__File__FileTypeID__52593CB8">
+            <End Role="FileType" EntitySet="FileTypes" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__FolderID__35BCFE0A" Association="QLLTDTModel.FK__File__FolderID__35BCFE0A">
+            <End Role="Folder" EntitySet="Folders" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__FolderID__534D60F1" Association="QLLTDTModel.FK__File__FolderID__534D60F1">
+            <End Role="Folder" EntitySet="Folders" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__TagID__5441852A" Association="QLLTDTModel.FK__File__TagID__5441852A">
+            <End Role="TagName" EntitySet="TagNames" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__TimeID__37A5467C" Association="QLLTDTModel.FK__File__TimeID__37A5467C">
+            <End Role="TimeKeep" EntitySet="TimeKeeps" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__File__TimeID__5535A963" Association="QLLTDTModel.FK__File__TimeID__5535A963">
+            <End Role="TimeKeep" EntitySet="TimeKeeps" />
+            <End Role="File" EntitySet="Files" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Folder__TimeID__38996AB5" Association="QLLTDTModel.FK__Folder__TimeID__38996AB5">
+            <End Role="TimeKeep" EntitySet="TimeKeeps" />
+            <End Role="Folder" EntitySet="Folders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Folder__TimeID__5629CD9C" Association="QLLTDTModel.FK__Folder__TimeID__5629CD9C">
+            <End Role="TimeKeep" EntitySet="TimeKeeps" />
+            <End Role="Folder" EntitySet="Folders" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="AccountID" />
@@ -350,12 +419,12 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ResetPassWordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AccountType" Relationship="Self.FK__Account__Account__31EC6D26" FromRole="Account" ToRole="AccountType" />
-          <NavigationProperty Name="AccountInfo" Relationship="Self.FK__Account__Account__32E0915F" FromRole="Account" ToRole="AccountInfo" />
-          <NavigationProperty Name="AccountType1" Relationship="Self.FK__Account__Account__4F7CD00D" FromRole="Account" ToRole="AccountType" />
-          <NavigationProperty Name="AccountInfo1" Relationship="Self.FK__Account__Account__5070F446" FromRole="Account" ToRole="AccountInfo" />
-          <NavigationProperty Name="Files" Relationship="Self.FK__File__AccountID__33D4B598" FromRole="Account" ToRole="File" />
-          <NavigationProperty Name="Files1" Relationship="Self.FK__File__AccountID__5165187F" FromRole="Account" ToRole="File" />
+          <NavigationProperty Name="AccountType" Relationship="QLLTDTModel.FK__Account__Account__31EC6D26" FromRole="Account" ToRole="AccountType" />
+          <NavigationProperty Name="AccountInfo" Relationship="QLLTDTModel.FK__Account__Account__32E0915F" FromRole="Account" ToRole="AccountInfo" />
+          <NavigationProperty Name="AccountType1" Relationship="QLLTDTModel.FK__Account__Account__4F7CD00D" FromRole="Account" ToRole="AccountType" />
+          <NavigationProperty Name="AccountInfo1" Relationship="QLLTDTModel.FK__Account__Account__5070F446" FromRole="Account" ToRole="AccountInfo" />
+          <NavigationProperty Name="Files" Relationship="QLLTDTModel.FK__File__AccountID__33D4B598" FromRole="Account" ToRole="File" />
+          <NavigationProperty Name="Files1" Relationship="QLLTDTModel.FK__File__AccountID__5165187F" FromRole="Account" ToRole="File" />
         </EntityType>
         <EntityType Name="AccountInfo">
           <Key>
@@ -368,8 +437,8 @@
           <Property Name="Phone" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Avatar" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Accounts" Relationship="Self.FK__Account__Account__32E0915F" FromRole="AccountInfo" ToRole="Account" />
-          <NavigationProperty Name="Accounts1" Relationship="Self.FK__Account__Account__5070F446" FromRole="AccountInfo" ToRole="Account" />
+          <NavigationProperty Name="Accounts" Relationship="QLLTDTModel.FK__Account__Account__32E0915F" FromRole="AccountInfo" ToRole="Account" />
+          <NavigationProperty Name="Accounts1" Relationship="QLLTDTModel.FK__Account__Account__5070F446" FromRole="AccountInfo" ToRole="Account" />
         </EntityType>
         <EntityType Name="AccountType">
           <Key>
@@ -377,8 +446,8 @@
           </Key>
           <Property Name="AccountTypeID" Type="Int32" Nullable="false" />
           <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Accounts" Relationship="Self.FK__Account__Account__31EC6D26" FromRole="AccountType" ToRole="Account" />
-          <NavigationProperty Name="Accounts1" Relationship="Self.FK__Account__Account__4F7CD00D" FromRole="AccountType" ToRole="Account" />
+          <NavigationProperty Name="Accounts" Relationship="QLLTDTModel.FK__Account__Account__31EC6D26" FromRole="AccountType" ToRole="Account" />
+          <NavigationProperty Name="Accounts1" Relationship="QLLTDTModel.FK__Account__Account__4F7CD00D" FromRole="AccountType" ToRole="Account" />
         </EntityType>
         <EntityType Name="File">
           <Key>
@@ -395,24 +464,24 @@
           <Property Name="Size" Type="Double" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" />
-          <NavigationProperty Name="Account" Relationship="Self.FK__File__AccountID__33D4B598" FromRole="File" ToRole="Account" />
-          <NavigationProperty Name="Account1" Relationship="Self.FK__File__AccountID__5165187F" FromRole="File" ToRole="Account" />
-          <NavigationProperty Name="FileType" Relationship="Self.FK__File__FileTypeID__34C8D9D1" FromRole="File" ToRole="FileType" />
-          <NavigationProperty Name="FileType1" Relationship="Self.FK__File__FileTypeID__52593CB8" FromRole="File" ToRole="FileType" />
-          <NavigationProperty Name="Folder" Relationship="Self.FK__File__FolderID__35BCFE0A" FromRole="File" ToRole="Folder" />
-          <NavigationProperty Name="Folder1" Relationship="Self.FK__File__FolderID__534D60F1" FromRole="File" ToRole="Folder" />
-          <NavigationProperty Name="TagName" Relationship="Self.FK__File__TagID__5441852A" FromRole="File" ToRole="TagName" />
-          <NavigationProperty Name="TimeKeep" Relationship="Self.FK__File__TimeID__37A5467C" FromRole="File" ToRole="TimeKeep" />
-          <NavigationProperty Name="TimeKeep1" Relationship="Self.FK__File__TimeID__5535A963" FromRole="File" ToRole="TimeKeep" />
+          <NavigationProperty Name="Account" Relationship="QLLTDTModel.FK__File__AccountID__33D4B598" FromRole="File" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="QLLTDTModel.FK__File__AccountID__5165187F" FromRole="File" ToRole="Account" />
+          <NavigationProperty Name="FileType" Relationship="QLLTDTModel.FK__File__FileTypeID__34C8D9D1" FromRole="File" ToRole="FileType" />
+          <NavigationProperty Name="FileType1" Relationship="QLLTDTModel.FK__File__FileTypeID__52593CB8" FromRole="File" ToRole="FileType" />
+          <NavigationProperty Name="Folder" Relationship="QLLTDTModel.FK__File__FolderID__35BCFE0A" FromRole="File" ToRole="Folder" />
+          <NavigationProperty Name="Folder1" Relationship="QLLTDTModel.FK__File__FolderID__534D60F1" FromRole="File" ToRole="Folder" />
+          <NavigationProperty Name="TagName" Relationship="QLLTDTModel.FK__File__TagID__5441852A" FromRole="File" ToRole="TagName" />
+          <NavigationProperty Name="TimeKeep" Relationship="QLLTDTModel.FK__File__TimeID__37A5467C" FromRole="File" ToRole="TimeKeep" />
+          <NavigationProperty Name="TimeKeep1" Relationship="QLLTDTModel.FK__File__TimeID__5535A963" FromRole="File" ToRole="TimeKeep" />
         </EntityType>
         <EntityType Name="FileType">
           <Key>
             <PropertyRef Name="FileTypeID" />
           </Key>
           <Property Name="FileTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Files" Relationship="Self.FK__File__FileTypeID__34C8D9D1" FromRole="FileType" ToRole="File" />
-          <NavigationProperty Name="Files1" Relationship="Self.FK__File__FileTypeID__52593CB8" FromRole="FileType" ToRole="File" />
+          <Property Name="TypeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Files" Relationship="QLLTDTModel.FK__File__FileTypeID__34C8D9D1" FromRole="FileType" ToRole="File" />
+          <NavigationProperty Name="Files1" Relationship="QLLTDTModel.FK__File__FileTypeID__52593CB8" FromRole="FileType" ToRole="File" />
         </EntityType>
         <EntityType Name="Folder">
           <Key>
@@ -422,20 +491,20 @@
           <Property Name="TimeID" Type="Int32" Nullable="false" />
           <Property Name="FolderName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="TotalSize" Type="Double" />
-          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Parent" Type="Int32" />
-          <NavigationProperty Name="Files" Relationship="Self.FK__File__FolderID__35BCFE0A" FromRole="Folder" ToRole="File" />
-          <NavigationProperty Name="Files1" Relationship="Self.FK__File__FolderID__534D60F1" FromRole="Folder" ToRole="File" />
-          <NavigationProperty Name="TimeKeep" Relationship="Self.FK__Folder__TimeID__38996AB5" FromRole="Folder" ToRole="TimeKeep" />
-          <NavigationProperty Name="TimeKeep1" Relationship="Self.FK__Folder__TimeID__5629CD9C" FromRole="Folder" ToRole="TimeKeep" />
+          <Property Name="Location" Type="Int32" />
+          <Property Name="Parent" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Files" Relationship="QLLTDTModel.FK__File__FolderID__35BCFE0A" FromRole="Folder" ToRole="File" />
+          <NavigationProperty Name="Files1" Relationship="QLLTDTModel.FK__File__FolderID__534D60F1" FromRole="Folder" ToRole="File" />
+          <NavigationProperty Name="TimeKeep" Relationship="QLLTDTModel.FK__Folder__TimeID__38996AB5" FromRole="Folder" ToRole="TimeKeep" />
+          <NavigationProperty Name="TimeKeep1" Relationship="QLLTDTModel.FK__Folder__TimeID__5629CD9C" FromRole="Folder" ToRole="TimeKeep" />
         </EntityType>
         <EntityType Name="TagName">
           <Key>
             <PropertyRef Name="TagID" />
           </Key>
           <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NameTag" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Files" Relationship="Self.FK__File__TagID__5441852A" FromRole="TagName" ToRole="File" />
+          <Property Name="NameTag" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Files" Relationship="QLLTDTModel.FK__File__TagID__5441852A" FromRole="TagName" ToRole="File" />
         </EntityType>
         <EntityType Name="TimeKeep">
           <Key>
@@ -445,14 +514,14 @@
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Files" Relationship="Self.FK__File__TimeID__37A5467C" FromRole="TimeKeep" ToRole="File" />
-          <NavigationProperty Name="Files1" Relationship="Self.FK__File__TimeID__5535A963" FromRole="TimeKeep" ToRole="File" />
-          <NavigationProperty Name="Folders" Relationship="Self.FK__Folder__TimeID__38996AB5" FromRole="TimeKeep" ToRole="Folder" />
-          <NavigationProperty Name="Folders1" Relationship="Self.FK__Folder__TimeID__5629CD9C" FromRole="TimeKeep" ToRole="Folder" />
+          <NavigationProperty Name="Files" Relationship="QLLTDTModel.FK__File__TimeID__37A5467C" FromRole="TimeKeep" ToRole="File" />
+          <NavigationProperty Name="Files1" Relationship="QLLTDTModel.FK__File__TimeID__5535A963" FromRole="TimeKeep" ToRole="File" />
+          <NavigationProperty Name="Folders" Relationship="QLLTDTModel.FK__Folder__TimeID__38996AB5" FromRole="TimeKeep" ToRole="Folder" />
+          <NavigationProperty Name="Folders1" Relationship="QLLTDTModel.FK__Folder__TimeID__5629CD9C" FromRole="TimeKeep" ToRole="Folder" />
         </EntityType>
         <Association Name="FK__Account__Account__31EC6D26">
-          <End Role="AccountType" Type="Self.AccountType" Multiplicity="1" />
-          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <End Type="QLLTDTModel.AccountType" Role="AccountType" Multiplicity="1" />
+          <End Type="QLLTDTModel.Account" Role="Account" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccountType">
               <PropertyRef Name="AccountTypeID" />
@@ -463,8 +532,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Account__Account__32E0915F">
-          <End Role="AccountInfo" Type="Self.AccountInfo" Multiplicity="1" />
-          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <End Type="QLLTDTModel.AccountInfo" Role="AccountInfo" Multiplicity="1" />
+          <End Type="QLLTDTModel.Account" Role="Account" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccountInfo">
               <PropertyRef Name="AccountInfoID" />
@@ -475,8 +544,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Account__Account__4F7CD00D">
-          <End Role="AccountType" Type="Self.AccountType" Multiplicity="1" />
-          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <End Type="QLLTDTModel.AccountType" Role="AccountType" Multiplicity="1" />
+          <End Type="QLLTDTModel.Account" Role="Account" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccountType">
               <PropertyRef Name="AccountTypeID" />
@@ -487,8 +556,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Account__Account__5070F446">
-          <End Role="AccountInfo" Type="Self.AccountInfo" Multiplicity="1" />
-          <End Role="Account" Type="Self.Account" Multiplicity="*" />
+          <End Type="QLLTDTModel.AccountInfo" Role="AccountInfo" Multiplicity="1" />
+          <End Type="QLLTDTModel.Account" Role="Account" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AccountInfo">
               <PropertyRef Name="AccountInfoID" />
@@ -499,8 +568,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__AccountID__33D4B598">
-          <End Role="Account" Type="Self.Account" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Account">
               <PropertyRef Name="AccountID" />
@@ -511,8 +580,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__AccountID__5165187F">
-          <End Role="Account" Type="Self.Account" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.Account" Role="Account" Multiplicity="1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Account">
               <PropertyRef Name="AccountID" />
@@ -523,8 +592,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FileTypeID__34C8D9D1">
-          <End Role="FileType" Type="Self.FileType" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.FileType" Role="FileType" Multiplicity="1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FileType">
               <PropertyRef Name="FileTypeID" />
@@ -535,8 +604,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FileTypeID__52593CB8">
-          <End Role="FileType" Type="Self.FileType" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.FileType" Role="FileType" Multiplicity="1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FileType">
               <PropertyRef Name="FileTypeID" />
@@ -547,8 +616,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FolderID__35BCFE0A">
-          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.Folder" Role="Folder" Multiplicity="0..1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Folder">
               <PropertyRef Name="FolderID" />
@@ -559,8 +628,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__FolderID__534D60F1">
-          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.Folder" Role="Folder" Multiplicity="0..1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Folder">
               <PropertyRef Name="FolderID" />
@@ -571,8 +640,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__TagID__5441852A">
-          <End Role="TagName" Type="Self.TagName" Multiplicity="0..1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.TagName" Role="TagName" Multiplicity="0..1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TagName">
               <PropertyRef Name="TagID" />
@@ -583,8 +652,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__TimeID__37A5467C">
-          <End Role="TimeKeep" Type="Self.TimeKeep" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.TimeKeep" Role="TimeKeep" Multiplicity="1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TimeKeep">
               <PropertyRef Name="TimeID" />
@@ -595,8 +664,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__File__TimeID__5535A963">
-          <End Role="TimeKeep" Type="Self.TimeKeep" Multiplicity="1" />
-          <End Role="File" Type="Self.File" Multiplicity="*" />
+          <End Type="QLLTDTModel.TimeKeep" Role="TimeKeep" Multiplicity="1" />
+          <End Type="QLLTDTModel.File" Role="File" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TimeKeep">
               <PropertyRef Name="TimeID" />
@@ -607,8 +676,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Folder__TimeID__38996AB5">
-          <End Role="TimeKeep" Type="Self.TimeKeep" Multiplicity="1" />
-          <End Role="Folder" Type="Self.Folder" Multiplicity="*" />
+          <End Type="QLLTDTModel.TimeKeep" Role="TimeKeep" Multiplicity="1" />
+          <End Type="QLLTDTModel.Folder" Role="Folder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TimeKeep">
               <PropertyRef Name="TimeID" />
@@ -619,8 +688,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Folder__TimeID__5629CD9C">
-          <End Role="TimeKeep" Type="Self.TimeKeep" Multiplicity="1" />
-          <End Role="Folder" Type="Self.Folder" Multiplicity="*" />
+          <End Type="QLLTDTModel.TimeKeep" Role="TimeKeep" Multiplicity="1" />
+          <End Type="QLLTDTModel.Folder" Role="Folder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TimeKeep">
               <PropertyRef Name="TimeID" />
@@ -630,76 +699,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="QLLTDTEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Accounts" EntityType="Self.Account" />
-          <EntitySet Name="AccountInfoes" EntityType="Self.AccountInfo" />
-          <EntitySet Name="AccountTypes" EntityType="Self.AccountType" />
-          <EntitySet Name="Files" EntityType="Self.File" />
-          <EntitySet Name="FileTypes" EntityType="Self.FileType" />
-          <EntitySet Name="Folders" EntityType="Self.Folder" />
-          <EntitySet Name="TagNames" EntityType="Self.TagName" />
-          <EntitySet Name="TimeKeeps" EntityType="Self.TimeKeep" />
-          <AssociationSet Name="FK__Account__Account__31EC6D26" Association="Self.FK__Account__Account__31EC6D26">
-            <End Role="AccountType" EntitySet="AccountTypes" />
-            <End Role="Account" EntitySet="Accounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Account__Account__32E0915F" Association="Self.FK__Account__Account__32E0915F">
-            <End Role="AccountInfo" EntitySet="AccountInfoes" />
-            <End Role="Account" EntitySet="Accounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Account__Account__4F7CD00D" Association="Self.FK__Account__Account__4F7CD00D">
-            <End Role="AccountType" EntitySet="AccountTypes" />
-            <End Role="Account" EntitySet="Accounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Account__Account__5070F446" Association="Self.FK__Account__Account__5070F446">
-            <End Role="AccountInfo" EntitySet="AccountInfoes" />
-            <End Role="Account" EntitySet="Accounts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__AccountID__33D4B598" Association="Self.FK__File__AccountID__33D4B598">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__AccountID__5165187F" Association="Self.FK__File__AccountID__5165187F">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__FileTypeID__34C8D9D1" Association="Self.FK__File__FileTypeID__34C8D9D1">
-            <End Role="FileType" EntitySet="FileTypes" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__FileTypeID__52593CB8" Association="Self.FK__File__FileTypeID__52593CB8">
-            <End Role="FileType" EntitySet="FileTypes" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__FolderID__35BCFE0A" Association="Self.FK__File__FolderID__35BCFE0A">
-            <End Role="Folder" EntitySet="Folders" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__FolderID__534D60F1" Association="Self.FK__File__FolderID__534D60F1">
-            <End Role="Folder" EntitySet="Folders" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__TagID__5441852A" Association="Self.FK__File__TagID__5441852A">
-            <End Role="TagName" EntitySet="TagNames" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__TimeID__37A5467C" Association="Self.FK__File__TimeID__37A5467C">
-            <End Role="TimeKeep" EntitySet="TimeKeeps" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__File__TimeID__5535A963" Association="Self.FK__File__TimeID__5535A963">
-            <End Role="TimeKeep" EntitySet="TimeKeeps" />
-            <End Role="File" EntitySet="Files" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Folder__TimeID__38996AB5" Association="Self.FK__Folder__TimeID__38996AB5">
-            <End Role="TimeKeep" EntitySet="TimeKeeps" />
-            <End Role="Folder" EntitySet="Folders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Folder__TimeID__5629CD9C" Association="Self.FK__Folder__TimeID__5629CD9C">
-            <End Role="TimeKeep" EntitySet="TimeKeeps" />
-            <End Role="Folder" EntitySet="Folders" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -709,88 +708,88 @@
           <EntitySetMapping Name="Accounts">
             <EntityTypeMapping TypeName="QLLTDTModel.Account">
               <MappingFragment StoreEntitySet="Account">
-                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
-                <ScalarProperty Name="AccountInfoID" ColumnName="AccountInfoID" />
-                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="ResetPassWordCode" ColumnName="ResetPassWordCode" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
+                <ScalarProperty Name="AccountInfoID" ColumnName="AccountInfoID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AccountInfoes">
             <EntityTypeMapping TypeName="QLLTDTModel.AccountInfo">
               <MappingFragment StoreEntitySet="AccountInfo">
-                <ScalarProperty Name="AccountInfoID" ColumnName="AccountInfoID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AccountInfoID" ColumnName="AccountInfoID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AccountTypes">
             <EntityTypeMapping TypeName="QLLTDTModel.AccountType">
               <MappingFragment StoreEntitySet="AccountType">
-                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="QLLTDTModel.File">
               <MappingFragment StoreEntitySet="File">
-                <ScalarProperty Name="FileID" ColumnName="FileID" />
-                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
-                <ScalarProperty Name="TagID" ColumnName="TagID" />
-                <ScalarProperty Name="FileTypeID" ColumnName="FileTypeID" />
-                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
-                <ScalarProperty Name="TimeID" ColumnName="TimeID" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="TimeID" ColumnName="TimeID" />
+                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
+                <ScalarProperty Name="FileTypeID" ColumnName="FileTypeID" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FileTypes">
             <EntityTypeMapping TypeName="QLLTDTModel.FileType">
               <MappingFragment StoreEntitySet="FileType">
-                <ScalarProperty Name="FileTypeID" ColumnName="FileTypeID" />
                 <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="FileTypeID" ColumnName="FileTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Folders">
             <EntityTypeMapping TypeName="QLLTDTModel.Folder">
               <MappingFragment StoreEntitySet="Folder">
-                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
-                <ScalarProperty Name="TimeID" ColumnName="TimeID" />
-                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
-                <ScalarProperty Name="TotalSize" ColumnName="TotalSize" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Parent" ColumnName="Parent" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="TotalSize" ColumnName="TotalSize" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+                <ScalarProperty Name="TimeID" ColumnName="TimeID" />
+                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TagNames">
             <EntityTypeMapping TypeName="QLLTDTModel.TagName">
               <MappingFragment StoreEntitySet="TagName">
-                <ScalarProperty Name="TagID" ColumnName="TagID" />
                 <ScalarProperty Name="NameTag" ColumnName="NameTag" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TimeKeeps">
             <EntityTypeMapping TypeName="QLLTDTModel.TimeKeep">
               <MappingFragment StoreEntitySet="TimeKeep">
-                <ScalarProperty Name="TimeID" ColumnName="TimeID" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="TimeID" ColumnName="TimeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
