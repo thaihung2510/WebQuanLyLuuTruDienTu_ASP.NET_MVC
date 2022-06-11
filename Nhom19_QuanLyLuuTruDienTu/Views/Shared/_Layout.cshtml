@@ -38,9 +38,9 @@
             <ul class="nav">
                 @{
 
-                    var b = Session["Username"];
-                    if (Session["Username"] != null)
-                    {
+                            var b = Session["Username"];
+                            if (Session["Username"] != null)
+                            {
                         <li class="nav-item profile">
                             <div class="profile-desc">
                                 <div class="profile-pic">
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="profile-name">
                                         <h5 class="mb-0 font-weight-normal">@Session["Username"]</h5>
-                                        <span>Normal Member</span>
+                                        <span>@Session["Type"]</span>
                                     </div>
                                 </div>
 
@@ -109,7 +109,7 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-               
+
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
@@ -126,12 +126,18 @@
                         <span class="menu-title">Thùng Rác</span>
                     </a>
                 </li>
-                <div style="margin-top:600px;margin-left:15px;">
-                    @if (@Session["Username"] != null){
+                <div style="margin-top:500px;margin-left:15px;">
+                    @{
+                        if (@Session["Username"] != null)
+                        {
 
-                    <p>Tổng dung lượng còn lại</p>
-                    <progress id="file" value="32" max="100"> 32% </progress>
-                    <p class="text-small">236 MB / 1.0 GB</p>
+
+                            <p>Tổng dung lượng còn lại</p><progress id="file" value="32" max="100"> 32% </progress><p class="text-small">236 MB / 1.0 GB</p>
+                            if (@Session["Type"].ToString() != "Vip")
+                            {
+                                <a class="btn btn-primary rounded-pill" style="background:#007bff" href="/Home/TrangChu/#pricing">Nâng cấp tài khoản</a>
+                            }
+                        }
                     }
                 </div>
                 @*<li class="nav-item menu-items">

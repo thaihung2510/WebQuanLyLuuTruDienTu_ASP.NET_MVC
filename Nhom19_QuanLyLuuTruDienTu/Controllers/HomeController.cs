@@ -14,8 +14,14 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             return View();
         }
+        public ActionResult DownloadDetail()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
+            TempData["fullurl"] = HttpContext.Request.Url.AbsoluteUri;
+
             List<ObjFile> ObjFiles = new List<ObjFile>();
             foreach (string strfile in Directory.GetFiles(Server.MapPath("~/Content/Files")))
             {
