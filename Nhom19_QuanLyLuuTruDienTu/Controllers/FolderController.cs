@@ -26,7 +26,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
             var folders = GetFolders(id);
             Session["FolderID"] = id;
-            var files = GetFiles();
+            var files = GetFiles(id);
 
             IndexVM model = new IndexVM();
             model.Folders = folders;
@@ -43,10 +43,16 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         }
 
 
-        private List<File> GetFiles()
+        private List<File> GetFiles(int id)
         {
-            List<File> filist = db.Files.ToList();
+            File _filefollow = new File();
+            List<File> filist = db.Files.Where(x => x.FolderID == id).ToList();
             return filist;
+        }
+
+        public ActionResult OnRightClick()
+        {
+            return View();
         }
 
         // GET: Folder/Create
@@ -78,7 +84,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Details", "Folder");
         }
 
         // GET: Folder/Edit/5

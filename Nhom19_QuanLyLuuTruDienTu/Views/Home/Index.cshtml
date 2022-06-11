@@ -131,7 +131,7 @@
                     @Html.DisplayFor(modelItem => item.Size)
                 </td>
                 <td class="sorting_1">
-                    @Html.DisplayFor(modelItem => item.FileType)
+                    @Html.DisplayFor(modelItem => item.FileType.TypeName)
                 </td>
                 <th class="sorting">
                     @Html.ActionLink("Download", "Download", new { fileName = item.FileName })
