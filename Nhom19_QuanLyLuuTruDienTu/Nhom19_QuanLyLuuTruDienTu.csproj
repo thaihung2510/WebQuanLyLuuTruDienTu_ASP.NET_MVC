@@ -177,6 +177,9 @@
       <DependentUpon>QLLTDT.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Others\PayCompare.cs" />
+    <Compile Include="Views\Others\PayLib.cs" />
+    <Compile Include="Views\Others\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\assets\css\style.css" />
@@ -184,6 +187,7 @@
     <Content Include="Content\assets\images\auth\login-bg.jpg" />
     <Content Include="Content\assets\images\auth\Login_bg.jpg" />
     <Content Include="Content\assets\images\auth\Login_bg2.jpg" />
+    <Content Include="Content\assets\images\auth\pngegg.png" />
     <Content Include="Content\assets\images\auth\register-bg.jpg" />
     <Content Include="Content\assets\images\carousel\banner_1.jpg" />
     <Content Include="Content\assets\images\carousel\banner_10.jpg" />
@@ -954,6 +958,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1137,6 +1142,8 @@
     <Content Include="Views\User\ForgotPassword.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\Home\TrangChu.cshtml" />
+    <Content Include="Views\Home\DownloadDetail.cshtml" />
+    <Content Include="Views\User\PaymentConfirm.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\User\UserPassEdit.cshtml" />
   </ItemGroup>

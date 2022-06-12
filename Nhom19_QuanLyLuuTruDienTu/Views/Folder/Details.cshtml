@@ -127,6 +127,7 @@
                 Type
             </th>
             <th class="sorting"></th>
+            <th class="sorting"></th>
         </tr>
 
         @foreach (var item in Model.Files)
@@ -144,9 +145,13 @@
                 <th class="sorting">
                     @Html.ActionLink("Download", "Download", new { fileName = item.FileName })
                 </th>
+                <th class="sorting">
+                    @Html.ActionLink("Delete", "Delete", new { fileName = item.FileName })
+                </th>
             </tr>
 
         }
+
     </table>
 </div>
 

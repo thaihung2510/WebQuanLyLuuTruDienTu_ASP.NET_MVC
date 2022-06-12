@@ -17,9 +17,18 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             return View();
         }
+        public ActionResult DownloadDetail()
+        {
+            return View();
+        }
         public ActionResult Index()
         {
-            List<ObjFile> ObjFiles = new List<ObjFile>();
+            if (Session["Username"] == null)
+            {
+                return RedirectToAction("LoginUser", "User");
+            }
+            TempData["fullurl"] = HttpContext.Request.Url.AbsoluteUri;
+
 
             var folders = GetFolders();
             var files = GetFiles();
@@ -28,31 +37,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             model.Folders = folders;
             model.Files = files;
 
-            if (Session["Username"] == null)
-            {
-                foreach (string strfile in Directory.GetFiles(Server.MapPath("~/Content/Files")))
-                {
-                    FileInfo fi = new FileInfo(strfile);
-                    ObjFile obj = new ObjFile();
-                    obj.File = fi.Name;
-                    obj.Size = fi.Length;
-                    obj.Type = GetFileType(fi.Extension);
-                    ObjFiles.Add(obj);
-                }
-            }
-            else
-            {
-                foreach (string strfile in Directory.GetFiles(Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"])))
-                {
-                    FileInfo fi = new FileInfo(strfile);
-                    ObjFile obj = new ObjFile();
-                    obj.File = fi.Name;
-                    obj.Size = fi.Length;
-                    obj.Type = GetFileType(fi.Extension);
-                    ObjFiles.Add(obj);
-                }
-            }
-
+            
             return View(model);
         }
 
@@ -81,7 +66,18 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             return filist;
         }
 
+        public ActionResult Delete(string fileName) //downloading
+        {
+            string fullPath = "";
+            byte[] fileBytes;
+            fullPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"], fileName);
+            System.IO.File.Delete(fullPath);
+            var fi = db.Files.Where(f => f.FileName == fileName).FirstOrDefault();
+            db.Files.Remove(fi);
+            db.SaveChanges();
+            return RedirectToAction("Index");
 
+        }
 
         public FileResult Download(string fileName) //downloading
         {
@@ -100,23 +96,38 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
         }
-        private string GetFileType(string fileExtension) //file type
+        private int GetFileType(string fileExtension) //file type
         {
             switch (fileExtension.ToLower())
             {
                 case ".docx":
                 case ".doc":
-                    return "Microsoft Word Document";
+                    return 1;
                 case ".xlsx":
                 case ".xls":
-                    return "Microsoft Excel Document";
+                    return 2;
                 case ".txt":
-                    return "Text Document";
+                    return 3;
                 case ".jpg":
                 case ".png":
-                    return "Image";
+                case ".apng":
+                case ".avif":
+                case ".gif":
+                case ".svg":
+                case ".webp":
+                    return 4;
+                case ".rar":
+                    return 5;
+                case ".zip":
+                    return 6;
+                case ".pptx":
+                case ".pptm":
+                case ".ppt":
+                    return 8;
+                case ".pdf":
+                    return 9;
                 default:
-                    return "Unknown";
+                    return 7;
             }
         }
 
@@ -174,24 +185,27 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(ObjFile doc) //Upload
+        public ActionResult Index(List<HttpPostedFileBase> files) //Upload
         {
-            foreach (var file in doc.files)
+            foreach (var file in files)
             {
                 if (file.ContentLength > 0)
                 {
 
                     File _file = new models.File();
                     _file.AccountID = (int)Session["UserID"];
-                    _file.FileTypeID = 1;
+                    string extension = Path.GetExtension(file.FileName);
+                    _file.FileTypeID = GetFileType(extension);
+                    _file.Size = file.ContentLength * 0.00000095367432; // convert bytes to megebytes
+                    _file.Description = "No Description";
                     _file.Status = true;
                     int _folderid = (int)Session["FolderID"];
                     _file.FolderID = _folderid;
-
                     var fileName = Path.GetFileName(file.FileName);
                     _file.FileName = fileName;
                     var fileUserPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"]);
                     var filePath = Path.Combine(fileUserPath, fileName);
+                    _file.Location = filePath;
                     db.Files.Add(_file);
 
                     TimeKeep _timeKeep = new TimeKeep();
@@ -218,11 +232,4 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         }
     }
 
-}
-public class ObjFile //test without data
-{
-    public IEnumerable<HttpPostedFileBase> files { get; set; }
-    public string File { get; set; }
-    public long Size { get; set; }
-    public string Type { get; set; }
 }
