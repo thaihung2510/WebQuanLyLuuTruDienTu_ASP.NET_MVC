@@ -67,7 +67,7 @@
           <Property Name="FolderName" Type="nvarchar" MaxLength="255" />
           <Property Name="TotalSize" Type="float" />
           <Property Name="Location" Type="int" />
-          <Property Name="Parent" Type="int" />
+          <Property Name="Parent" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="TagName">
           <Key>
