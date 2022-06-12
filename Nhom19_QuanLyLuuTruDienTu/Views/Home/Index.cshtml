@@ -15,9 +15,9 @@
         height: 700px;
         width: 500px;
         background: #191c24;
-        position: sticky;
-        top: 20%;
-        left: 80%;
+        position: fixed;
+        top: 15%;
+        left: 70%;
         border-radius: 10px;
         display: block;
         float: left;
@@ -97,12 +97,12 @@
     }
     <br />
 
-
+    <h2>Folders </h2>
     @foreach (var folders in Model.Folders)
     {
         <div class="foldercontainterarea">
             <div class="foldercard">
-                @Html.ActionLink("X", "Foldel", "Folder", new {id = @folders.FolderID}, null)
+                @Html.ActionLink("X", "Foldel", "Folder", new { id = @folders.FolderID }, null)
                 <a href="@Url.Action("Details", "Folder", new { id = @folders.FolderID})">
                     <div>
                         <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
@@ -112,6 +112,7 @@
             </div>
         </div>
     }
+    <h2>Files </h2>
     <table class="table table-hover table-dark">
         <tr>
             <th class="sorting_asc">

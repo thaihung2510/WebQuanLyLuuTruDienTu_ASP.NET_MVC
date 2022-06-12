@@ -16,9 +16,9 @@
         height: 700px;
         width: 500px;
         background: #191c24;
-        position: sticky;
-        top: 20%;
-        left: 80%;
+        position: fixed;
+        top: 15%;
+        left: 70%;
         border-radius: 10px;
         display: block;
         float: left;
@@ -63,10 +63,6 @@
         .foldercard img {
             margin: 25px;
         }
-
-    .foldercard:hover .file-close {
-        visibility: visible;
-    }
 </style>
 <div style="width: 500px; float: left; font-family: Arial;">
 
@@ -102,23 +98,23 @@
         <h2>@ViewBag.message</h2>
     }
     <br />
-    
-    
+    <h2> Folders </h2>
+
     @foreach (var folders in Model.Folders)
     {
-    <div class="foldercontainterarea">
-        <div class="foldercard">
-            @Html.ActionLink("X", "Foldel", new { id = @folders.FolderID}, new { onclick = "return confirm('Xóa Thư mục sẽ xóa tất cả những gì bên trong, bạn chắc chứ?');" })
-            <a href="@Url.Action("Details", new { id = @folders.FolderID})">
-                <div class="foldercard">
-                    <img src="~/Content/assets/images/folderpng.png" width="100" />
-                    <p>@folders.FolderName</p>
-                </div>
-            </a>
+        <div class="foldercontainterarea">
+            <div class="foldercard">
+                @Html.ActionLink("X", "Foldel", "Folder", new { id = @folders.FolderID }, null)
+                <a href="@Url.Action("Details", "Folder", new { id = @folders.FolderID})">
+                    <div>
+                        <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
+                        <p>@folders.FolderName</p>
+                    </div>
+                </a>
+            </div>
         </div>
-    </div>
     }
-
+    <h2>Files </h2>
     <table class="table table-hover table-dark">
         <tr>
             <th class="sorting_asc">
