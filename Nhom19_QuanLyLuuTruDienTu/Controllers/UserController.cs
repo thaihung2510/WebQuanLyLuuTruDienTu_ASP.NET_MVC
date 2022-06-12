@@ -64,8 +64,14 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     Directory.CreateDirectory(folder);
 
                 }
+                var userfolderid = -1;
+                userfolderid = db.Folders
+                    .Where(m => m.FolderName == _username)
+                    .Select(m => m.FolderID)
+                    .FirstOrDefault();
+                Session["UserFolderID"] = userfolderid;
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Details", "Folder", new { id = userfolderid });
 
             }
         }

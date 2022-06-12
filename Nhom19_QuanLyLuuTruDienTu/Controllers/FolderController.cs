@@ -38,10 +38,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             var files = GetFiles(id);
 
             IndexVM model = new IndexVM();
-            string myid = id.ToString();
-            List<Folder> folist = db.Folders.ToList();
-            List<Folder> foname = folist.Where(x => x.Parent == myid).ToList();
-            model.Folders = foname;
+            model.Folders = folders;
             model.Files = files;
 
             return View(model);
@@ -73,10 +70,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         private List<Folder> GetFolders(int id)
         {
-            List<Folder> folist = db.Folders.ToList();
             Folder _folderid = new Folder();
-            string myid = _folderid.FolderID.ToString();
-            List<Folder> foname = folist.Where(x => x.Parent == myid).ToList();
+            List<Folder> foname = db.Folders.Where(x => x.Parent == id).ToList();
             return foname;
         }
 
@@ -101,7 +96,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         // POST: Folder/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(string foldername)
         {
             ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
             Folder _folder = new Folder();
