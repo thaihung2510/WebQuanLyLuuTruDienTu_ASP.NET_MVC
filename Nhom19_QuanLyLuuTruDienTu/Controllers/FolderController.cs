@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.IO;
 using Nhom19_QuanLyLuuTruDienTu.models;
 using File = Nhom19_QuanLyLuuTruDienTu.models.File;
+using System.Web.Routing;
 
 namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
@@ -15,16 +16,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         // GET: Folder
         public ActionResult Index()
         {
-
-            return View();
-        }
-
-        // GET: Folder/Details/5
-        public ActionResult Details(int id)
-        {
-            var chitiet = db.Folders.Find(id);
-            var folders = GetFolders(chitiet.FolderName);
-            Session["FolderName"] = chitiet.FolderName;
+            var folders = GetFolders();
             var files = GetFiles();
 
             IndexVM model = new IndexVM();
@@ -34,11 +26,39 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             return View(model);
         }
 
-        private List<Folder> GetFolders(string parent)
+        // GET: Folder/Details/5
+        public ActionResult Details(int id)
         {
-            Folder _folderid = new Folder();
-            List<Folder> foname = db.Folders.Where(x => x.Parent == parent).ToList();
-            return foname;
+            ViewBag.param = id;
+
+            var chitiet = db.Folders.Find(id);
+
+            var folders = GetFolders(id);
+            Session["FolderID"] = id;
+            var files = GetFiles(id);
+
+            IndexVM model = new IndexVM();
+            model.Folders = folders;
+            model.Files = files;
+
+            return View(model);
+        }
+
+        private List<Folder> GetFolders()
+        {
+            if (Session["Username"] == null)
+            {
+                List<Folder> folist = db.Folders.ToList();
+
+                return folist;
+            }
+            else
+            {
+                string str = (string)Session["Username"];
+                var parent = db.Folders.Where(s => s.FolderName == str).FirstOrDefault();
+                List<Folder> folist = db.Folders.Where(x => x.Parent == parent.FolderID).ToList();
+                return folist;
+            }
         }
 
 
@@ -46,6 +66,26 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             List<File> filist = db.Files.ToList();
             return filist;
+        }
+
+        private List<Folder> GetFolders(int id)
+        {
+            Folder _folderid = new Folder();
+            List<Folder> foname = db.Folders.Where(x => x.Parent == id).ToList();
+            return foname;
+        }
+
+
+        private List<File> GetFiles(int id)
+        {
+            File _filefollow = new File();
+            List<File> filist = db.Files.Where(x => x.FolderID == id).ToList();
+            return filist;
+        }
+
+        public ActionResult OnRightClick()
+        {
+            return View();
         }
 
         // GET: Folder/Create
@@ -61,8 +101,9 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
             Folder _folder = new Folder();
             _folder.FolderName = foldername;
-            var _foldername = (string)Session["FolderName"];
-            _folder.Parent = _foldername;
+            var _folderid = (int)Session["FolderID"];
+            var parent = db.Folders.Where(s => s.Parent == _folderid).FirstOrDefault();
+            _folder.Parent = _folderid;
             db.Folders.Add(_folder);
 
             TimeKeep _timeKeep = new TimeKeep();
@@ -76,7 +117,31 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Details", "Folder", new { id = _folderid });
+        }
+
+        public ActionResult Foldel(int id)
+        {
+            QLLTDTEntities db = new QLLTDTEntities();
+            int fid = (int)Session["FolderID"];
+            var fidel = db.Files.Where(x => x.FolderID == id).FirstOrDefault();
+            var foldel = db.Folders.Where(x => x.FolderID == id).FirstOrDefault();
+            var folpadel = db.Folders.Where(x => x.Parent == id).FirstOrDefault();
+            //var folpadelcheck = db.Folders.Except(folpadel.Parent).FirstOrDefault();
+            if (fidel != null)
+            {
+                db.Files.Remove(fidel);
+            }
+            if (folpadel != null)
+            {
+                db.Folders.Remove(folpadel);
+                //db.Folders.Remove(folpadelcheck);
+            }
+            db.Folders.Remove(foldel);
+            db.SaveChanges();
+
+
+            return RedirectToAction("Details", "Folder", new { id = fid });
         }
 
         // GET: Folder/Edit/5
@@ -101,10 +166,14 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             }
         }
 
+
         // GET: Folder/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Folder folderid = db.Folders.Find(id);
+            db.Folders.Remove(folderid);
+            db.SaveChanges();
+            return RedirectToAction("Details");
         }
 
         // POST: Folder/Delete/5
@@ -115,7 +184,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
             catch
             {

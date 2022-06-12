@@ -11,10 +11,6 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult TrangChu()
-        {
-            return View();
-        }
 
         QLLTDTEntities db = new QLLTDTEntities();
 
@@ -29,7 +25,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             model.Folders = folders;
             model.Files = files;
 
-            if(Session["Username"] == null)
+            if (Session["Username"] == null)
             {
                 foreach (string strfile in Directory.GetFiles(Server.MapPath("~/Content/Files")))
                 {
@@ -63,15 +59,16 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             if (Session["Username"] == null)
             {
                 List<Folder> folist = db.Folders.ToList();
-                
+
                 return folist;
             }
             else
             {
-                string str =(string)Session["Username"];
-                List <Folder> folist = db.Folders.Where(x => x.Parent == str).ToList();
+                string str = (string)Session["Username"];
+                var parent = db.Folders.Where(s => s.FolderName == str).FirstOrDefault();
+                List<Folder> folist = db.Folders.Where(x => x.Parent == parent.FolderID).ToList();
                 return folist;
-            }   
+            }
         }
 
 
@@ -100,28 +97,6 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
         }
-        public ActionResult Delete(string fileName) //downloading
-        {
-            string fullPath = "";
-            File fi;
-            if (Session["Username"] == null)
-            {
-                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), fileName);
-                System.IO.File.Delete(fullPath);
-                TempData["Message"] = "files deleted successfully";
-            }
-            else
-            {
-                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"], fileName);
-                System.IO.File.Delete(fullPath);
-                fi = db.Files.Where(f => f.FileName == fileName).FirstOrDefault();
-                db.Files.Remove(fi);
-                db.SaveChanges();
-                TempData["Message"] = "files deleted successfully";
-
-            }
-            return RedirectToAction("Index");
-        }
         private string GetFileType(string fileExtension) //file type
         {
             switch (fileExtension.ToLower())
@@ -141,7 +116,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     return "Unknown";
             }
         }
-        
+
         [HttpPost]
         public ActionResult Folder(string foldername) //CreateFolder
         {
@@ -176,8 +151,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             Folder _folder = new Folder();
             _folder.FolderName = foldername;
             string str = (string)Session["Username"];
-
-            _folder.Parent = str;
+            var parent = db.Folders.Where(s => s.FolderName == str).FirstOrDefault();
+            _folder.Parent = parent.FolderID;
             db.Folders.Add(_folder);
 
             TimeKeep _timeKeep = new TimeKeep();
@@ -207,6 +182,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     _file.AccountID = (int)Session["UserID"];
                     _file.FileTypeID = 1;
                     _file.Status = true;
+                    int _folderid = (int)Session["FolderID"];
+                    _file.FolderID = _folderid;
 
                     var fileName = Path.GetFileName(file.FileName);
                     _file.FileName = fileName;
@@ -228,22 +205,21 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 }
             }
             TempData["Message"] = "files uploaded successfully";
-            return RedirectToAction("Index");
+            int foluserid = (int)Session["FolderID"];
+            return RedirectToAction("Details", "Folder", new { id = foluserid });
         }
 
         public ActionResult Search(string searching)
         {
             return View(db.Files.Where(x => x.FileName.Contains(searching) || searching == null).ToList());
         }
-    } 
-    
+    }
+
 }
 public class ObjFile //test without data
 {
     public IEnumerable<HttpPostedFileBase> files { get; set; }
     public string File { get; set; }
-    public string location { get; set; }
-    public string description { get; set; }
     public long Size { get; set; }
     public string Type { get; set; }
 }

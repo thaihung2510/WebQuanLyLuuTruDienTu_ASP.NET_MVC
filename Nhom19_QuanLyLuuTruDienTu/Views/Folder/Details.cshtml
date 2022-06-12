@@ -63,6 +63,10 @@
         .foldercard img {
             margin: 25px;
         }
+
+    .file-man-box:hover .file-close {
+        visibility: visible;
+    }
 </style>
 <div style="width: 500px; float: left; font-family: Arial;">
 
@@ -103,12 +107,14 @@
         <div class="foldercontainterarea">
             <a href="@Url.Action("Details", new { id = @folders.FolderID})">
                 <div class="foldercard">
-                    <img src="~/Content/assets/images/folderpng.png" width="100" />
+                    <a href="" class="file-close"><i class="fa fa-times-circle" style="color:red; margin-left: 130px"></i></a>
+                    <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
                     <p>@folders.FolderName</p>
                 </div>
             </a>
         </div>
     }
+
     <table class="table table-hover table-dark">
         <tr>
             <th class="sorting_asc">
@@ -133,7 +139,7 @@
                     @Html.DisplayFor(modelItem => item.Size)
                 </td>
                 <td class="sorting_1">
-                    @Html.DisplayFor(modelItem => item.FileType)
+                    @Html.DisplayFor(modelItem => item.FileType.TypeName)
                 </td>
                 <th class="sorting">
                     @Html.ActionLink("Download", "Download", new { fileName = item.FileName })

@@ -29,7 +29,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPass { get; set; }
         public string ResetPassWordCode { get; set; }
     
         public virtual AccountType AccountType { get; set; }
