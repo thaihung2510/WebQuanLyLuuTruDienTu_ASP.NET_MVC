@@ -1,0 +1,130 @@
+﻿@model Nhom19_QuanLyLuuTruDienTu.models.File
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>File</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Size)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Size)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account1.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account1.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileType.TypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileType.TypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileType1.TypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileType1.TypeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Folder.FolderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Folder.FolderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Folder1.FolderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Folder1.FolderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TagName.NameTag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TagName.NameTag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeKeep.TimeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeKeep.TimeID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeKeep1.TimeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeKeep1.TimeID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FileID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

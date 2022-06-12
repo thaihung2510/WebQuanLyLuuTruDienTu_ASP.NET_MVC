@@ -105,7 +105,7 @@
                     <span class="nav-link">Your Fate</span>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="/Home/Index/">
+                    <a class="nav-link" href="@Url.Action("Details", "Folder", new { id = Session["FolderUser"]})">
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
@@ -123,7 +123,7 @@
                     </div>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/forms/basic_elements.html">
+                    <a class="nav-link" href="@Url.Action("Trash", "RecycleBin")">
                         <span class="menu-icon">
                             <i class="mdi mdi-trash-can"></i>
                         </span>

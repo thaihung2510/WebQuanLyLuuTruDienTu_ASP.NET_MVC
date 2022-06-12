@@ -40,7 +40,12 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 var userid = db.Accounts
                     .Where(m => m.Username == _username)
                     .Select(m => m.AccountID)
-                    .SingleOrDefault(); 
+                    .SingleOrDefault();
+                int folderuser = db.Folders
+                    .Where(m => m.FolderName == _username)
+                    .Select(m => m.FolderID)
+                    .FirstOrDefault();
+                Session["FolderUser"] = folderuser;
                 Session["UserID"] = userid;
                 //db.SaveChanges();
                 ViewBag.Message = "Đăng nhập thành công";

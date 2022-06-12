@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Nhom19_QuanLyLuuTruDienTu.models.File>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>File Đã xóa gần đây</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Account.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileType.TypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Folder.FolderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TagName.NameTag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeKeep.DeletedDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileType.TypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Folder.FolderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TagName.NameTag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeKeep.DeletedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Restore", "Restore", new { id = item.FileID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.FileID })
+            </td>
+        </tr>
+    }
+
+</table>
