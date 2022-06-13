@@ -99,7 +99,7 @@
     }
     <h2> Folders</h2>
     @foreach (var folders in Model.Folders)
-    {
+    {<div class="Search">
         <div class="foldercontainterarea">
             <div class="foldercard">
                 @Html.ActionLink("X", "Foldel", "Folder", new { id = @folders.FolderID },
@@ -113,6 +113,7 @@
                 </a>
             </div>
         </div>
+    </div>
     }
 
     <table class="table table-hover table-dark">
