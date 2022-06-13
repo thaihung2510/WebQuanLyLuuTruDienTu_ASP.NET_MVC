@@ -90,21 +90,21 @@
         </table>
 
     }
-    @using (Html.BeginForm("Folder", "Home", FormMethod.Post))
+    @using (Html.BeginForm("Create", "Folder", FormMethod.Post))
     {
         <input type="text" name="foldername" />
         <input type="submit" name="Create Folder" />
         <hr />
         <h2>@ViewBag.message</h2>
     }
-    <br />
-    <h2> Folders </h2>
-
+    <h2> Folders</h2>
     @foreach (var folders in Model.Folders)
     {
         <div class="foldercontainterarea">
             <div class="foldercard">
-                @Html.ActionLink("X", "Foldel", "Folder", new { id = @folders.FolderID }, null)
+                @Html.ActionLink("X", "Foldel", "Folder", new { id = @folders.FolderID },
+               new { onclick = "return confirm('Xóa Thư mục sẽ xóa tất cả những gì bên trong, bạn chắc chứ?');" })
+                <a href="@Url.Action("Edit", "Folders", new { id = folders.FolderID })">...</a>
                 <a href="@Url.Action("Details", "Folder", new { id = @folders.FolderID})">
                     <div>
                         <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
@@ -114,7 +114,7 @@
             </div>
         </div>
     }
-    <h2>Files </h2>
+
     <table class="table table-hover table-dark">
         <tr>
             <th class="sorting_asc">
@@ -143,10 +143,13 @@
                     @Html.DisplayFor(modelItem => item.FileType.TypeName)
                 </td>
                 <th class="sorting">
-                    @Html.ActionLink("Download", "Download", new { fileName = item.FileName })
+                    @Html.ActionLink("Download", "Download", "Home", new { fileName = item.FileName }, null)
                 </th>
                 <th class="sorting">
-                    @Html.ActionLink("Delete", "Delete", new { fileName = item.FileName })
+                    @Html.ActionLink("Delete", "DeleteFile", "Home", new { id = item.FileID }, null)
+                </th>
+                <th class="sorting">
+                    @Html.ActionLink("...", "FileDetails", "Folder", new { id = item.FileID }, null)
                 </th>
             </tr>
 
@@ -160,17 +163,22 @@
         <img src="~/Content/assets/images/filepng.png" height=200 style="margin: 40px 0px 0px 140px" />
         <table style="height: 287px; margin: 30px 0px 0px 30px; vertical-align: text-bottom;">
             <tr>
-                <th>File</th>
-                <td rowspan="4"><p id="test" style="margin-left: 20px; line-height: 1.6"></p></td>
+                <th>File Name: <p>@Session["finame"]</p></th>
             </tr>
             <tr>
-                <th>Size</th>
+                <th>Size <p>@Session["fisize"]</p></th>
             </tr>
             <tr>
-                <th>Type</th>
+                <th>Type <p>@Session["fitype"]</p></th>
             </tr>
             <tr>
-                <th>Download</th>
+                <th>Owner <p>@Session["fiowner"]</p></th>
+            </tr>
+            <tr>
+                <th>Description <p>@Session["fidesc"]</p></th>
+            </tr>
+            <tr>
+                <th><h3>| @Html.ActionLink("More Info & Edit", "Edit", "Files", new { id = Session["fiId"] }, null) |</h3></th>
             </tr>
         </table>
     </div>
@@ -201,4 +209,27 @@
             document.getElementById("test").innerText = $(this).text();
         });
     });
+</script>
+<script>
+    $(function () {
+        var PlaceHolderElement = $('#PlaceHolderHere');
+        $('button[data-toggle="ajax-modal"]').click(function (event) {
+            var url = $(this).data('url');
+            var decodedUrl = decodeURIComponent(url);
+            $.get(decodedUrl).done(function (data) {
+                PlaceHolderElement.html(data);
+                PlaceHolderElement.find('.modal').modal('show');
+            })
+        })
+
+        PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+            event.preventDefault();
+            var form = $(this).parent('.modal').find('form');
+            var actionUrl = form.attr('action');
+            var sendData = form.serialize();
+            $.post(actionUrl, sendData).done(function (data) {
+                PlaceHolderElement.find('.modal').modal('hide');
+            })
+        })
+    })
 </script>

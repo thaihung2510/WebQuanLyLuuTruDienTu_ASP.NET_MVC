@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.IO;
 using Nhom19_QuanLyLuuTruDienTu.models;
 using File = Nhom19_QuanLyLuuTruDienTu.models.File;
+using System.Net;
+using System.Data.Entity;
 
 namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
@@ -222,6 +224,16 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 }
             }
             TempData["Message"] = "files uploaded successfully";
+            int foluserid = (int)Session["FolderID"];
+            return RedirectToAction("Details", "Folder", new { id = foluserid });
+        }
+
+        public ActionResult DeleteFile(int id)
+        {
+            File file = db.Files.Find(id);
+            file.Status = false;
+            db.Entry(file).State = EntityState.Modified;
+            db.SaveChanges();
             int foluserid = (int)Session["FolderID"];
             return RedirectToAction("Details", "Folder", new { id = foluserid });
         }

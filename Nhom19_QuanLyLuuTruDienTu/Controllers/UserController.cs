@@ -39,8 +39,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 Session["Username"] = _username;
                 Session["Password"] = _pass;
                 Session["AccountType"] = check.AccountType.TypeName;
+                int folderuser = db.Folders
+                    .Where(m => m.FolderName == _username)
+                    .FirstOrDefault().FolderID;
+                Session["FolderUser"] = folderuser;
                 Session["UserID"] = check.AccountID;
-                //db.SaveChanges();
                 ViewBag.Message = "Đăng nhập thành công";
 
                 var folder = Path.Combine(Server.MapPath("~/Content/Files"), _username);

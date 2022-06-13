@@ -7,6 +7,7 @@ using System.IO;
 using Nhom19_QuanLyLuuTruDienTu.models;
 using File = Nhom19_QuanLyLuuTruDienTu.models.File;
 using System.Web.Routing;
+using System.Data.Entity;
 
 namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 {
@@ -64,7 +65,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         private List<File> GetFiles()
         {
-            List<File> filist = db.Files.ToList();
+            List<File> filist = db.Files.Where(x => x.Status == true).ToList();
             return filist;
         }
 
@@ -79,7 +80,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         private List<File> GetFiles(int id)
         {
             File _filefollow = new File();
-            List<File> filist = db.Files.Where(x => x.FolderID == id).ToList();
+            List<File> filist = db.Files.Where(x => x.FolderID == id && x.Status == true).ToList();
             return filist;
         }
 
@@ -92,6 +93,53 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+
+        public ActionResult FileDetails(int id)
+        {
+            File file = db.Files.Find(id);
+
+            var _fileId = db.Files
+                    .Where(m => m.FileID == id)
+                    .Select(m => m.FileID)
+                    .FirstOrDefault();
+            Session["fiId"] = _fileId;
+            var _fileName = db.Files
+                    .Where(m => m.FileID == id)
+                    .Select(m => m.FileName)
+                    .FirstOrDefault();
+            var _fileSize = db.Files
+                    .Where(m => m.FileID == id)
+                    .Select(m => m.Size)
+                    .FirstOrDefault();
+            var _fileTypeid = db.Files
+                    .Where(m => m.FileID == id)
+                    .Select(m => m.FileTypeID)
+                    .FirstOrDefault();
+            var _fileType = db.FileTypes
+                    .Where(m => m.FileTypeID == _fileTypeid)
+                    .Select(m => m.TypeName)
+                    .FirstOrDefault();
+            var _fileownerid = db.Files
+                    .Where(m => m.FileID == id)
+                    .Select(m => m.AccountID)
+                    .FirstOrDefault();
+            var _fileOwner = db.Accounts
+                    .Where(m => m.AccountID == _fileownerid)
+                    .Select(m => m.Username)
+                    .FirstOrDefault();
+            var _fileDescr = db.Files
+                    .Where(m => m.FileID == id)
+                    .Select(m => m.Description)
+                    .FirstOrDefault();
+            Session["finame"] = _fileName;
+            Session["fisize"] = _fileSize;
+            Session["fitype"] = _fileType;
+            Session["fiowner"] = _fileOwner;
+            Session["fidesc"] = _fileDescr;
+
+            int _folderid = (int)Session["FolderID"];
+            return RedirectToAction("Details", "Folder", new { id = _folderid });
         }
 
         // POST: Folder/Create
@@ -128,15 +176,20 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             var foldel = db.Folders.Where(x => x.FolderID == id).FirstOrDefault();
             var folpadel = db.Folders.Where(x => x.Parent == id).FirstOrDefault();
             //var folpadelcheck = db.Folders.Except(folpadel.Parent).FirstOrDefault();
+
+            fidel.Status = false;
+            
             if (fidel != null)
             {
-                db.Files.Remove(fidel);
+                fidel.Status = false;
+                db.Entry(fidel).State = EntityState.Modified;
             }
             if (folpadel != null)
             {
                 db.Folders.Remove(folpadel);
                 //db.Folders.Remove(folpadelcheck);
             }
+            db.Entry(fidel).State = EntityState.Modified;
             db.Folders.Remove(foldel);
             db.SaveChanges();
 
@@ -147,23 +200,22 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         // GET: Folder/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var _folder = db.Folders.Where(x => x.FolderID == id).SingleOrDefault();
+            return PartialView("Edit", _folder);
         }
 
         // POST: Folder/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "FolderID,FolderName,TotalSize,Location,Parent")] Folder folder)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                db.Entry(folder).State = EntityState.Modified;
+                db.SaveChanges();
+                return PartialView("Edit", folder);
             }
-            catch
-            {
-                return View();
-            }
+            return PartialView("Edit", folder);
         }
 
 
