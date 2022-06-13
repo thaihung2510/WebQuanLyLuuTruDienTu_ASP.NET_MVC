@@ -140,24 +140,30 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             QLLTDTEntities db = new QLLTDTEntities();
             int fid = (int)Session["FolderID"];
-            var fidel = db.Files.Where(x => x.FolderID == id).FirstOrDefault();
+
+            var filefound = db.Files.Where(x => x.FolderID == id).ToList();
+
             var foldel = db.Folders.Where(x => x.FolderID == id).FirstOrDefault();
             var folpadel = db.Folders.Where(x => x.Parent == id).FirstOrDefault();
-            //var folpadelcheck = db.Folders.Except(folpadel.Parent).FirstOrDefault();
+            var folpadelid = db.Folders.Where(x => x.Parent == id).Select(x => x.FolderID).FirstOrDefault();
+            var folpadelchain = db.Folders.Where(x => x.Parent == folpadelid).FirstOrDefault();
 
-            fidel.Status = false;
-            
-            if (fidel != null)
+            foreach (File f in filefound)
             {
-                fidel.Status = false;
-                db.Entry(fidel).State = EntityState.Modified;
+                f.Status = false;
+                db.Entry(f).State = EntityState.Modified;
+                db.SaveChanges();
             }
             if (folpadel != null)
             {
+                if(folpadelchain != null)
+                {
+                    db.Folders.Remove(folpadelchain);
+                }
                 db.Folders.Remove(folpadel);
-                //db.Folders.Remove(folpadelcheck);
             }
-            db.Entry(fidel).State = EntityState.Modified;
+            //fidel.Status = false;
+            //db.Entry(fidel).State = EntityState.Modified;
             db.Folders.Remove(foldel);
             db.SaveChanges();
 
