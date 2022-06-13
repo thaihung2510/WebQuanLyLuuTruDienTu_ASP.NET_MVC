@@ -13,7 +13,7 @@
     }
 
     .fileinfo-container {
-        height: 700px;
+        height: auto;
         width: 500px;
         background: #191c24;
         position: fixed;
@@ -22,6 +22,7 @@
         border-radius: 10px;
         display: block;
         float: left;
+        padding-bottom:20px;
     }
 
     .fileinfo-content {
@@ -92,12 +93,12 @@
     }
     @using (Html.BeginForm("Create", "Folder", FormMethod.Post))
     {
+        <b style="color: #FF5722">Folder:</b>
         <input type="text" name="foldername" />
         <input type="submit" name="Create Folder" />
         <hr />
         <h2>@ViewBag.message</h2>
     }
-    <h2> Folders</h2>
     @foreach (var folders in Model.Folders)
     {
         <div class="foldercontainterarea">
@@ -128,6 +129,7 @@
             </th>
             <th class="sorting"></th>
             <th class="sorting"></th>
+            <th class="sorting"></th>
         </tr>
 
         @foreach (var item in Model.Files)
@@ -136,8 +138,9 @@
                 <td class="sorting_1">
                     @Html.DisplayFor(modelItem => item.FileName)
                 </td>
-                <td class="sorting_1">
-                    @Html.DisplayFor(modelItem => item.Size)
+                <td class="sorting_1" name="Size">
+
+                    @Html.DisplayFor(modelItem => item.SizeInMB) MB
                 </td>
                 <td class="sorting_1">
                     @Html.DisplayFor(modelItem => item.FileType.TypeName)
@@ -166,7 +169,7 @@
                 <th>File Name: <p>@Session["finame"]</p></th>
             </tr>
             <tr>
-                <th>Size <p>@Session["fisize"]</p></th>
+                <th>Size <p>@Session["fisize"] MB</p></th>
             </tr>
             <tr>
                 <th>Type <p>@Session["fitype"]</p></th>
@@ -175,7 +178,13 @@
                 <th>Owner <p>@Session["fiowner"]</p></th>
             </tr>
             <tr>
-                <th>Description <p>@Session["fidesc"]</p></th>
+                <th>Create Date <p>@Session["ficreate"]</p></th>
+            </tr>
+            <tr>
+                <th>Modified Date <p>@Session["fiedit"]</p></th>
+            </tr>
+            <tr>
+                <th>Description<p>@Session["fidesc"]</p></th>
             </tr>
             <tr>
                 <th><h3>| @Html.ActionLink("More Info & Edit", "Edit", "Files", new { id = Session["fiId"] }, null) |</h3></th>
@@ -232,4 +241,16 @@
             })
         })
     })
+</script>
+<script>
+    $(document).ready(function () {
+        var mb = bytesToSize($(#Size).val());
+        $(#Size).text(mb);
+});
+    function bytesToSize(byte) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    }
 </script>

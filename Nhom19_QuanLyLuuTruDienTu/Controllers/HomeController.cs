@@ -189,41 +189,50 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         [HttpPost]
         public ActionResult Index(List<HttpPostedFileBase> files) //Upload
         {
+            TempData["Message"] = "";
             foreach (var file in files)
             {
-                if (file.ContentLength > 0)
+                if(file!=null)
                 {
+                    if (file.ContentLength > 0)
+                    {
 
-                    File _file = new models.File();
-                    _file.AccountID = (int)Session["UserID"];
-                    string extension = Path.GetExtension(file.FileName);
-                    _file.FileTypeID = GetFileType(extension);
-                    _file.Size = file.ContentLength * 0.00000095367432; // convert bytes to megebytes
-                    _file.Description = "No Description";
-                    _file.Status = true;
-                    int _folderid = (int)Session["FolderID"];
-                    _file.FolderID = _folderid;
-                    var fileName = Path.GetFileName(file.FileName);
-                    _file.FileName = fileName;
-                    var fileUserPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"]);
-                    var filePath = Path.Combine(fileUserPath, fileName);
-                    _file.Location = filePath;
-                    db.Files.Add(_file);
+                        File _file = new models.File();
+                        _file.AccountID = (int)Session["UserID"];
+                        string extension = Path.GetExtension(file.FileName);
+                        _file.FileTypeID = GetFileType(extension);
+                        _file.Size = file.ContentLength;
+                        _file.Description = "No Description";
+                        _file.Status = true;
+                        int _folderid = (int)Session["FolderID"];
+                        _file.FolderID = _folderid;
+                        var fileName = Path.GetFileName(file.FileName);
+                        _file.FileName = fileName;
+                        var fileUserPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"]);
+                        var filePath = Path.Combine(fileUserPath, fileName);
+                        _file.Location = filePath;
+                        db.Files.Add(_file);
 
-                    TimeKeep _timeKeep = new TimeKeep();
-                    DateTime _createdate = DateTime.Now;
-                    _timeKeep.CreateDate = _createdate;
-                    DateTime _modifydate = DateTime.Now;
-                    _timeKeep.ModifiedDate = _modifydate;
-                    DateTime _deletedate = DateTime.Now;
-                    _timeKeep.DeletedDate = _deletedate;
-                    db.TimeKeeps.Add(_timeKeep);
+                        TimeKeep _timeKeep = new TimeKeep();
+                        DateTime _createdate = DateTime.Now;
+                        _timeKeep.CreateDate = _createdate;
+                        DateTime _modifydate = DateTime.Now;
+                        _timeKeep.ModifiedDate = _modifydate;
+                        _timeKeep.DeletedDate = null;
+                        db.TimeKeeps.Add(_timeKeep);
 
-                    db.SaveChanges();
-                    file.SaveAs(filePath);
+                        db.SaveChanges();
+                        file.SaveAs(filePath);
+                        TempData["Message"] = "files uploaded successfully";
+                    }
+                }
+                else
+                {
+                    TempData["Message"] = "Choose your upload file!";
                 }
             }
-            TempData["Message"] = "files uploaded successfully";
+            
+            
             int foluserid = (int)Session["FolderID"];
             return RedirectToAction("Details", "Folder", new { id = foluserid });
         }

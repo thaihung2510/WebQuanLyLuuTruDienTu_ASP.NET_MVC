@@ -97,47 +97,15 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         public ActionResult FileDetails(int id)
         {
-            File file = db.Files.Find(id);
-
-            var _fileId = db.Files
-                    .Where(m => m.FileID == id)
-                    .Select(m => m.FileID)
-                    .FirstOrDefault();
-            Session["fiId"] = _fileId;
-            var _fileName = db.Files
-                    .Where(m => m.FileID == id)
-                    .Select(m => m.FileName)
-                    .FirstOrDefault();
-            var _fileSize = db.Files
-                    .Where(m => m.FileID == id)
-                    .Select(m => m.Size)
-                    .FirstOrDefault();
-            var _fileTypeid = db.Files
-                    .Where(m => m.FileID == id)
-                    .Select(m => m.FileTypeID)
-                    .FirstOrDefault();
-            var _fileType = db.FileTypes
-                    .Where(m => m.FileTypeID == _fileTypeid)
-                    .Select(m => m.TypeName)
-                    .FirstOrDefault();
-            var _fileownerid = db.Files
-                    .Where(m => m.FileID == id)
-                    .Select(m => m.AccountID)
-                    .FirstOrDefault();
-            var _fileOwner = db.Accounts
-                    .Where(m => m.AccountID == _fileownerid)
-                    .Select(m => m.Username)
-                    .FirstOrDefault();
-            var _fileDescr = db.Files
-                    .Where(m => m.FileID == id)
-                    .Select(m => m.Description)
-                    .FirstOrDefault();
-            Session["finame"] = _fileName;
-            Session["fisize"] = _fileSize;
-            Session["fitype"] = _fileType;
-            Session["fiowner"] = _fileOwner;
-            Session["fidesc"] = _fileDescr;
-
+            File file = db.Files.Where(s=>s.FileID==id).FirstOrDefault();
+            Session["fiId"] = file.FileID;
+            Session["finame"] = file.FileName;
+            Session["fisize"] = file.SizeInMB;
+            Session["fitype"] = file.FileType.TypeName;
+            Session["fiowner"] = file.Account.Username;
+            Session["ficreate"] = file.TimeKeep.CreateDate;
+            Session["fiedit"] = file.TimeKeep.ModifiedDate;
+            Session["fidesc"] = file.Description;
             int _folderid = (int)Session["FolderID"];
             return RedirectToAction("Details", "Folder", new { id = _folderid });
         }

@@ -173,9 +173,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             File file = db.Files.Find(id);
+            var fullPath = file.Location;
+            System.IO.File.Delete(fullPath);
             db.Files.Remove(file);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Trash");
         }
 
         protected override void Dispose(bool disposing)
