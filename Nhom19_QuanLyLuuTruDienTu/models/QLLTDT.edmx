@@ -15,6 +15,7 @@
           <Property Name="Username" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="50" />
           <Property Name="ResetPassWordCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="TotalSize" Type="float" />
         </EntityType>
         <EntityType Name="AccountInfo">
           <Key>
@@ -65,8 +66,6 @@
           <Property Name="FolderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TimeID" Type="int" Nullable="false" />
           <Property Name="FolderName" Type="nvarchar" MaxLength="255" />
-          <Property Name="TotalSize" Type="float" />
-          <Property Name="Location" Type="int" />
           <Property Name="Parent" Type="int" />
         </EntityType>
         <EntityType Name="TagName">
@@ -350,6 +349,7 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ResetPassWordCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TotalSize" Type="Double" />
           <NavigationProperty Name="AccountType" Relationship="Self.FK__Account__Account__31EC6D26" FromRole="Account" ToRole="AccountType" />
           <NavigationProperty Name="AccountInfo" Relationship="Self.FK__Account__Account__32E0915F" FromRole="Account" ToRole="AccountInfo" />
           <NavigationProperty Name="AccountType1" Relationship="Self.FK__Account__Account__4F7CD00D" FromRole="Account" ToRole="AccountType" />
@@ -421,8 +421,6 @@
           <Property Name="FolderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TimeID" Type="Int32" Nullable="false" />
           <Property Name="FolderName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="TotalSize" Type="Double" />
-          <Property Name="Location" Type="Int32" />
           <Property Name="Parent" Type="Int32" />
           <NavigationProperty Name="Files" Relationship="Self.FK__File__FolderID__35BCFE0A" FromRole="Folder" ToRole="File" />
           <NavigationProperty Name="Files1" Relationship="Self.FK__File__FolderID__534D60F1" FromRole="Folder" ToRole="File" />
@@ -715,6 +713,7 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="ResetPassWordCode" ColumnName="ResetPassWordCode" />
+                <ScalarProperty Name="TotalSize" ColumnName="TotalSize" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -770,8 +769,6 @@
                 <ScalarProperty Name="FolderID" ColumnName="FolderID" />
                 <ScalarProperty Name="TimeID" ColumnName="TimeID" />
                 <ScalarProperty Name="FolderName" ColumnName="FolderName" />
-                <ScalarProperty Name="TotalSize" ColumnName="TotalSize" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="Parent" ColumnName="Parent" />
               </MappingFragment>
             </EntityTypeMapping>

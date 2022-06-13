@@ -176,6 +176,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             var fullPath = file.Location;
             System.IO.File.Delete(fullPath);
             db.Files.Remove(file);
+
+            var check = db.Accounts.Where(s => s.AccountID == file.AccountID).FirstOrDefault();
+            check.TotalSize -= file.Size;
+            db.Entry(check).State = EntityState.Modified;
+
             db.SaveChanges();
             return RedirectToAction("Trash");
         }

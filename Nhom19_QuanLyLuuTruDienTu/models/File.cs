@@ -23,10 +23,6 @@ namespace Nhom19_QuanLyLuuTruDienTu.models
         public string Location { get; set; }
         public string FileName { get; set; }
         public Nullable<double> Size { get; set; }
-        public Nullable<double> SizeInMB
-        {
-            get { return Math.Round((double)(Size / 1048576),2); } //convert to MB
-        }
         public string Description { get; set; }
         public Nullable<bool> Status { get; set; }
     

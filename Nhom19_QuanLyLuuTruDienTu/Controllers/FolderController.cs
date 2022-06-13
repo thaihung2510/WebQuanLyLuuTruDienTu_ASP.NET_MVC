@@ -33,7 +33,17 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             ViewBag.param = id;
 
             var chitiet = db.Folders.Find(id);
-
+            var checkacc = db.Accounts.Where(s => s.Username == chitiet.FolderName).FirstOrDefault();
+            Session["AccountType"] = checkacc.AccountType.TypeName;
+            Session["TotalSize"] = checkacc.TotalSize;
+            if(checkacc.AccountType.AccountTypeID==2)
+            {
+                Session["limitSize"] = (double)2048;
+            }
+            else
+            {
+                Session["limitSize"] = (double)1024;
+            }
             var folders = GetFolders(id);
             Session["FolderID"] = id;
             var files = GetFiles(id);
@@ -100,7 +110,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             File file = db.Files.Where(s=>s.FileID==id).FirstOrDefault();
             Session["fiId"] = file.FileID;
             Session["finame"] = file.FileName;
-            Session["fisize"] = file.SizeInMB;
+            Session["fisize"] = file.Size;
             Session["fitype"] = file.FileType.TypeName;
             Session["fiowner"] = file.Account.Username;
             Session["ficreate"] = file.TimeKeep.CreateDate;

@@ -136,7 +136,7 @@
                         {
 
 
-                            <p>Tổng dung lượng còn lại</p><progress id="file" value="32" max="100"> 32% </progress><p class="text-small">236 MB / 1.0 GB</p>
+                            <p>Tổng dung lượng còn lại</p><progress id="file" value="32" max="100"> 32% </progress><p class="text-small">@Session["TotalSize"] MB / @Session["limitSize"] MB</p>
                             if (@Session["AccountType"].ToString() != "VIP")
                             {
                                 <a class="btn btn-primary rounded-pill" style="background:#007bff" href="/Home/TrangChu/#pricing">Nâng cấp tài khoản</a>

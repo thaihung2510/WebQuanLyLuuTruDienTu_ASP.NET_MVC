@@ -435,7 +435,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                         usercurrent.AccountTypeID = 2;
                         db.SaveChanges();
                         var acctypecurrent = db.AccountTypes.Where(x => x.AccountTypeID == usercurrent.AccountTypeID).FirstOrDefault();
-                        Session["Type"] = acctypecurrent.TypeName;
+                        Session["AccountType"] = acctypecurrent.TypeName;
                         ViewBag.Message = "Thanh toán thành công hóa đơn " + orderId + " | Mã giao dịch: " + vnpayTranId;
                     }
                     else

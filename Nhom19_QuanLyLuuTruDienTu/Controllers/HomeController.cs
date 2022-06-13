@@ -201,7 +201,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                         _file.AccountID = (int)Session["UserID"];
                         string extension = Path.GetExtension(file.FileName);
                         _file.FileTypeID = GetFileType(extension);
-                        _file.Size = file.ContentLength;
+                        _file.Size = Math.Round((double)file.ContentLength / 1048576, 2);
                         _file.Description = "No Description";
                         _file.Status = true;
                         int _folderid = (int)Session["FolderID"];
@@ -212,6 +212,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                         var filePath = Path.Combine(fileUserPath, fileName);
                         _file.Location = filePath;
                         db.Files.Add(_file);
+
+                        var check = db.Accounts.Where(s => s.AccountID == _file.AccountID).FirstOrDefault();
+                        check.TotalSize += _file.Size;
+                        db.Entry(check).State = EntityState.Modified;
+                        Session["TotalSize"] = check.TotalSize;
 
                         TimeKeep _timeKeep = new TimeKeep();
                         DateTime _createdate = DateTime.Now;
