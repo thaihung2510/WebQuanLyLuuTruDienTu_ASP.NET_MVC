@@ -1,0 +1,66 @@
+﻿@model Nhom19_QuanLyLuuTruDienTu.models.Folder
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Folder</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FolderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FolderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeKeep.TimeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeKeep.TimeID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeKeep1.TimeID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeKeep1.TimeID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FolderID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

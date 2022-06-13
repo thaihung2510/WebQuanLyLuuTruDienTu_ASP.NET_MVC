@@ -5,14 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>DetailUser</h2>
 
+<h2>Thông tin người dùng</h2>
 <div>
-    <h4>AccountInfo</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            <label for="">Tên người dùng:</label>
         </dt>
 
         <dd>
@@ -20,31 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            <label for="">Email Address</label>
         </dt>
 
         <dd>
@@ -52,16 +27,25 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Avatar)
+            <label for="">Home Address</label>
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Avatar)
+            @Html.DisplayFor(model => model.Address)
         </dd>
 
+        <dt>
+            <label for="">Phone Number</label>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AccountInfoID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Thay đổi thông tin", "EditUser", new { id = Model.AccountInfoID }, new { @class = "btn btn-primary" })
+    @*@Html.ActionLink("Xem lịch sử mua hàng", "History", null, new { @class = "btn btn-primary" })*@
 </p>
+
+

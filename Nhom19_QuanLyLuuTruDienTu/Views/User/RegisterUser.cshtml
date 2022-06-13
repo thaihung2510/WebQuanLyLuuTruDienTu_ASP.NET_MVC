@@ -22,12 +22,12 @@
         <input type="text" name="username" placeholder="UserName" autocomplete="off">
         <input type="password" name="pass" placeholder="Passsword" id="pwd" autocomplete="off">
         <input type="password" name="repeat-pass" placeholder="Repeat Password" id="pwd" autocomplete="off">
-        <a href="#" class="forgetpass" style="position:center">Forget Password?</a>
-        <p style="color:red;resize:15px;">@ViewBag.ErrorInfo</p>
+        <a href="/User/ForgotPassword/" class="forgetpass" style="position:center">Forget Password?</a>
+        <p style="color:red;resize:15px;">@ViewBag.ErrorRegister</p>
         <input type="submit" value="Sign Up" class="btn1">
     </form>
         }
-        <a href="#" class="dnthave">Don’t have an account? Sign up</a>
+    <a href="/User/LoginUser" class="dnthave" style="position:center">Already have an account? Try Fate</a>
     </div>
     <div class="footer">
     </div>

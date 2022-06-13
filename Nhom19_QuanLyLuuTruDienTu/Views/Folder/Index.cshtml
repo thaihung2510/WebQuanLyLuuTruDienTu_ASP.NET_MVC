@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Data;
+@using Nhom19_QuanLyLuuTruDienTu.models
+@model IndexVM
+
+<style>
+    a {
+        color: inherit;
+    }
+
+    .fileinfo-container {
+        height: 700px;
+        width: 500px;
+        background: #191c24;
+        position: sticky;
+        top: 20%;
+        left: 80%;
+        border-radius: 10px;
+        display: block;
+        float: left;
+    }
+
+    .fileinfo-content {
+        height: auto;
+        width: auto;
+        float: left;
+    }
+
+    .foldercontainterarea {
+        height: auto;
+        width: 1000px;
+        display: block;
+    }
+
+    .foldercard {
+        height: 150px;
+        width: 150px;
+        background: #191c24;
+        border: 1px solid #808080;
+        border-radius: 5px;
+        float: left;
+        margin: 25px;
+    }
+
+        .foldercard:hover {
+            height: 150px;
+            width: 150px;
+            background: #282d3b;
+            border: 1px solid #808080;
+            border-radius: 5px;
+            float: left;
+            margin: 25px;
+        }
+
+        .foldercard p {
+            text-align: center;
+        }
+
+        .foldercard img {
+            margin: 25px;
+        }
+</style>
+<div style="width: 500px; float: left; font-family: Arial;">
+
+    @using (@Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        if (TempData["Message"] != null)
+        {
+
+            <p style="font-family: Arial; font-size: 16px; font-weight: 200; color: red">@TempData["Message"]</p>
+        }
+        <table>
+            <tr>
+                <td style="width: 50px;">
+                    <b style="color: #FF5722">File:</b>
+                </td>
+                <td>
+                    <input type="file" name="files" id="files" multiple="multiple" />
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-success btn-rounded btn-icon-text">
+                        <i class="mdi mdi-upload btn-icon-prepend"></i> Upload
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+    }
+    @using (Html.BeginForm("Create", "Folder", FormMethod.Post))
+    {
+        <input type="text" name="foldername" />
+        <input type="submit" name="Create Folder" />
+        <hr />
+        <h2>@ViewBag.message</h2>
+    }
+    <br />
+
+
+    @foreach (var folders in Model.Folders)
+    {
+        <div class="foldercontainterarea">
+            <div class="foldercard">
+                @Html.ActionLink("X", "Foldel", new { id = @folders.FolderID})
+                <a href="@Url.Action("Details", new { id = @folders.FolderID})">
+                    <div>
+                        <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
+                        <p>@folders.FolderName</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+    <table class="table table-hover table-dark">
+        <tr>
+            <th class="sorting_asc">
+                File
+            </th>
+            <th class="sorting">
+                Size
+            </th>
+            <th class="sorting">
+                Type
+            </th>
+            <th class="sorting"></th>
+        </tr>
+
+        @foreach (var item in Model.Files)
+        {
+            <tr class="Search">
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td class="sorting_1">
+                    @Html.DisplayFor(modelItem => item.FileType.TypeName)
+                </td>
+                <th class="sorting">
+                    @Html.ActionLink("Download", "Download", new { fileName = item.FileName })
+                </th>
+            </tr>
+
+        }
+    </table>
+</div>
+
+<div class="fileinfo-container">
+    <div class="fileinfo-content">
+        <img src="~/Content/assets/images/filepng.png" height=200 style="margin: 40px 0px 0px 140px" />
+        <table style="height: 287px; margin: 30px 0px 0px 30px; vertical-align: text-bottom;">
+            <tr>
+                <th>File</th>
+                <td rowspan="4"><p id="test" style="margin-left: 20px; line-height: 1.6"></p></td>
+            </tr>
+            <tr>
+                <th>Size</th>
+            </tr>
+            <tr>
+                <th>Type</th>
+            </tr>
+            <tr>
+                <th>Download</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function Contains(text_one, text_two) {
+            if (text_one.indexOf(text_two) != -1)
+                return true;
+        }
+        $("#Search").keyup(function () {
+            var searchText = $("#Search").val().toLowerCase();
+            $(".Search").each(function () {
+                if (!Contains($(this).text().toLowerCase(), searchText)) {
+                    $(this).hide();
+                }
+                else {
+                    $(this).show();
+                }
+            });
+        });
+        $('table tbody tr').click(function () {
+            var text = $(this).find('td:first-child')[0].innerText;
+            console.log(text);
+            document.getElementById("test").innerText = $(this).text();
+        });
+    });
+</script>

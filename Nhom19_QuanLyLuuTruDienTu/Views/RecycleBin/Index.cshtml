@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Nhom19_QuanLyLuuTruDienTu.models.File>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Size)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Account.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Account1.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileType.TypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileType1.TypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Folder.FolderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Folder1.FolderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TagName.NameTag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeKeep.TimeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeKeep1.TimeID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Size)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Account.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Account1.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileType.TypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileType1.TypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Folder.FolderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Folder1.FolderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TagName.NameTag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeKeep.TimeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeKeep1.TimeID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.FileID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.FileID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.FileID })
+        </td>
+    </tr>
+}
+
+</table>
