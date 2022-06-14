@@ -214,7 +214,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                         db.Files.Add(_file);
 
                         var check = db.Accounts.Where(s => s.AccountID == _file.AccountID).FirstOrDefault();
-                        check.TotalSize += _file.Size;
+                        double tempSum = (double)check.TotalSize + (double)_file.Size;
+                        check.TotalSize = Math.Round(tempSum, 2);
                         db.Entry(check).State = EntityState.Modified;
                         Session["TotalSize"] = check.TotalSize;
 
@@ -246,6 +247,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             File file = db.Files.Find(id);
             file.Status = false;
+            file.TimeKeep.DeletedDate = DateTime.Now;
             db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
             int foluserid = (int)Session["FolderID"];

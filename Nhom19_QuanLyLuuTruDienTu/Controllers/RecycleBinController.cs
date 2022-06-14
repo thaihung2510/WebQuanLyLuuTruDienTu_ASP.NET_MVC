@@ -23,13 +23,10 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         public ActionResult Trash()
         {
-            string username = (string)Session["Username"];
-            int userid = db.Accounts
-                    .Where(m => m.Username == username)
-                    .Select(m => m.AccountID)
-                    .FirstOrDefault();
-            //int id = (int)Session["FolderID"];
+            int userid = (int)Session["UserID"];
             var files = db.Files.Where(x => x.AccountID == userid && x.Status == false).ToList();
+            var checkAcc = db.Accounts.Where(s=>s.AccountID==userid).FirstOrDefault();
+            Session["TotalSize"] = (double)checkAcc.TotalSize;
             return View(files);
         }
 
@@ -176,11 +173,9 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             var fullPath = file.Location;
             System.IO.File.Delete(fullPath);
             db.Files.Remove(file);
-
             var check = db.Accounts.Where(s => s.AccountID == file.AccountID).FirstOrDefault();
-            check.TotalSize -= file.Size;
+            check.TotalSize = Math.Round((double)check.TotalSize, 2) - Math.Round((double)file.Size, 2);
             db.Entry(check).State = EntityState.Modified;
-
             db.SaveChanges();
             return RedirectToAction("Trash");
         }

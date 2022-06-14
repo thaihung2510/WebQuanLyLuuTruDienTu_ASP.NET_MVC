@@ -39,9 +39,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                 Session["Username"] = _username;
                 Session["Password"] = _pass;
                 Session["AccountType"] = check.AccountType.TypeName;
-                int folderuser = db.Folders
-                    .Where(m => m.FolderName == _username)
-                    .FirstOrDefault().FolderID;
+                int folderuser = db.Folders.Where(m => m.FolderName == _username).FirstOrDefault().FolderID;
                 Session["FolderUser"] = folderuser;
                 Session["UserID"] = check.AccountID;
                 ViewBag.Message = "Đăng nhập thành công";
@@ -54,8 +52,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     _timeKeep.CreateDate = _createdate;
                     DateTime _modifydate = DateTime.Now;
                     _timeKeep.ModifiedDate = _modifydate;
-                    DateTime _deletedate = DateTime.Now;
-                    _timeKeep.DeletedDate = _deletedate;
+                    _timeKeep.DeletedDate = null;
                     db.TimeKeeps.Add(_timeKeep);
 
                     Folder _folder = new Folder();
@@ -65,14 +62,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     Directory.CreateDirectory(folder);
 
                 }
-                var userfolderid = -1;
-                userfolderid = db.Folders
-                    .Where(m => m.FolderName == _username)
-                    .Select(m => m.FolderID)
-                    .FirstOrDefault();
-                Session["UserFolderID"] = userfolderid;
 
-                return RedirectToAction("Details", "Folder", new { id = userfolderid });
+                return RedirectToAction("Details", "Folder", new { id = folderuser });
 
             }
         }
@@ -129,6 +120,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     _usertk.Password = _pass;
                     _usertk.ResetPassWordCode = "";
                     _usertk.AccountTypeID = 1;
+                    _usertk.TotalSize = 0;
 
                     db.Configuration.ValidateOnSaveEnabled = false;
                     db.Accounts.Add(_usertk);
@@ -153,7 +145,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                         db.SaveChanges();
                         Directory.CreateDirectory(folder);
                     }
-                    return RedirectToAction("Index");
+                    return RedirectToAction("LoginUser");
                 }
                 else
                 {

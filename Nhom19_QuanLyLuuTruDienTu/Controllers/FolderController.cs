@@ -26,26 +26,62 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
             return View(model);
         }
+        public void DeleteFolder(int id)
+        {
+            var delFolder = db.Folders.Find(id);
+            var listFolder = db.Folders.Where(s => s.Parent == id).ToList();
+            if(listFolder.Count==0)
+            {
+                db.Folders.Remove(delFolder);
+                db.SaveChanges();
+            }
+            else
+            {
+                int folderID = (int)Session["FolderUser"];
+                var folderBase = db.Folders.Where(s => s.FolderID == folderID).FirstOrDefault();
+                foreach (var item in listFolder)
+                {
+                    DeleteFolder(item.FolderID);
+                    var listFile = db.Files.Where(x => x.FolderID == id).ToList();
+                    foreach (var ifile in listFile)
+                    {
+                        ifile.FolderID = folderBase.FolderID;
+                        ifile.Status = false;
+                        db.Entry(ifile).State = EntityState.Modified;
+                    }
+                    
+                }
+                db.Folders.Remove(delFolder);
+                db.SaveChanges();
+            }
+            
+        }
 
         // GET: Folder/Details/5
         public ActionResult Details(int id)
         {
+
             ViewBag.param = id;
 
             var chitiet = db.Folders.Find(id);
-            var checkacc = db.Accounts.Where(s => s.Username == chitiet.FolderName).FirstOrDefault();
+
+            int userID = (int)Session["UserID"];
+            var checkacc = db.Accounts.Where(s => s.AccountID == userID).FirstOrDefault();
             Session["AccountType"] = checkacc.AccountType.TypeName;
             Session["TotalSize"] = checkacc.TotalSize;
+            double limitSize = 0;
             if(checkacc.AccountType.AccountTypeID==2)
             {
-                Session["limitSize"] = (double)2048;
+                limitSize = 10240;
             }
             else
             {
-                Session["limitSize"] = (double)1024;
+                limitSize = 1024;
             }
+            Session["limitSize"] = limitSize;
             var folders = GetFolders(id);
             Session["FolderID"] = id;
+
             var files = GetFiles(id);
 
             IndexVM model = new IndexVM();
@@ -137,8 +173,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             _timeKeep.CreateDate = _createdate;
             DateTime _modifydate = DateTime.Now;
             _timeKeep.ModifiedDate = _modifydate;
-            DateTime _deletedate = DateTime.Now;
-            _timeKeep.DeletedDate = _deletedate;
+            _timeKeep.DeletedDate = null;
             db.TimeKeeps.Add(_timeKeep);
 
             db.SaveChanges();
@@ -148,36 +183,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         public ActionResult Foldel(int id)
         {
-            QLLTDTEntities db = new QLLTDTEntities();
             int fid = (int)Session["FolderID"];
-
-            var filefound = db.Files.Where(x => x.FolderID == id).ToList();
-
-            var foldel = db.Folders.Where(x => x.FolderID == id).FirstOrDefault();
-            var folpadel = db.Folders.Where(x => x.Parent == id).FirstOrDefault();
-            var folpadelid = db.Folders.Where(x => x.Parent == id).Select(x => x.FolderID).FirstOrDefault();
-            var folpadelchain = db.Folders.Where(x => x.Parent == folpadelid).FirstOrDefault();
-
-            foreach (File f in filefound)
-            {
-                f.Status = false;
-                db.Entry(f).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            if (folpadel != null)
-            {
-                if(folpadelchain != null)
-                {
-                    db.Folders.Remove(folpadelchain);
-                }
-                db.Folders.Remove(folpadel);
-            }
-            //fidel.Status = false;
-            //db.Entry(fidel).State = EntityState.Modified;
-            db.Folders.Remove(foldel);
-            db.SaveChanges();
-
-
+            DeleteFolder(id);
             return RedirectToAction("Details", "Folder", new { id = fid });
         }
 
