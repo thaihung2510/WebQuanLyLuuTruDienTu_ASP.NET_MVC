@@ -19,8 +19,20 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             return View();
         }
-        public ActionResult DownloadDetail()
+        public ActionResult DownloadDetail(int id)
         {
+            File file = db.Files.Where(s => s.FileID == id).FirstOrDefault();
+            var _filename = db.Files.Where(s => s.FileID == id).Select(s => s.FileName).FirstOrDefault();
+            Session["FileDownload"] = _filename;
+            Session["fiId"] = file.FileID;
+            Session["finame"] = file.FileName;
+            Session["fisize"] = file.Size;
+            Session["fitype"] = file.FileType.TypeName;
+            Session["fiowner"] = file.Account.Username;
+            Session["ficreate"] = file.TimeKeep.CreateDate;
+            Session["fiedit"] = file.TimeKeep.ModifiedDate;
+            Session["fidesc"] = file.Description;
+            Download(_filename);
             return View();
         }
         public ActionResult Index()

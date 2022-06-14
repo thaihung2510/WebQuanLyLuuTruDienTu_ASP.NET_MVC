@@ -63,6 +63,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
             ViewBag.param = id;
 
+<<<<<<< HEAD
             var chitiet = db.Folders.Find(id);
 
             int userID = (int)Session["UserID"];
@@ -71,6 +72,16 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             Session["TotalSize"] = checkacc.TotalSize;
             double limitSize = 0;
             if(checkacc.AccountType.AccountTypeID==2)
+=======
+            //var chitiet = db.Folders.Find(id);
+
+            Account ac = new Account();
+            var _userID = (string)Session["Username"];
+            var checkacc = db.Accounts.Where(s => s.Username == _userID).FirstOrDefault();
+            Session["AccountType"] = checkacc.AccountType.TypeName;
+            Session["TotalSize"] = ac.TotalSize;
+            if (checkacc.AccountType.AccountTypeID == 2)
+>>>>>>> b2a4e596f1aa9088012fd56ee728870d9d54ce6f
             {
                 limitSize = 10240;
             }
