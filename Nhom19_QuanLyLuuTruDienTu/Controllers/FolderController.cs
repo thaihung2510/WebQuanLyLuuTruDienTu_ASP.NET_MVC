@@ -32,11 +32,14 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             ViewBag.param = id;
 
-            var chitiet = db.Folders.Find(id);
-            var checkacc = db.Accounts.Where(s => s.Username == chitiet.FolderName).FirstOrDefault();
+            //var chitiet = db.Folders.Find(id);
+
+            Account ac = new Account();
+            var _userID = (string)Session["Username"];
+            var checkacc = db.Accounts.Where(s => s.Username == _userID).FirstOrDefault();
             Session["AccountType"] = checkacc.AccountType.TypeName;
-            Session["TotalSize"] = checkacc.TotalSize;
-            if(checkacc.AccountType.AccountTypeID==2)
+            Session["TotalSize"] = ac.TotalSize;
+            if (checkacc.AccountType.AccountTypeID == 2)
             {
                 Session["limitSize"] = (double)2048;
             }

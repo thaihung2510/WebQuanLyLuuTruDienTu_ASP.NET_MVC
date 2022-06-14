@@ -147,7 +147,7 @@
                     @Html.DisplayFor(modelItem => item.FileType.TypeName)
                 </td>
                 <th class="sorting">
-                    @Html.ActionLink("Download", "Download", "Home", new { fileName = item.FileName }, null)
+                    @Html.ActionLink("Download", "DownloadDetail", "Home", new { id = item.FileID }, null)
                 </th>
                 <th class="sorting">
                     @Html.ActionLink("Delete", "DeleteFile", "Home", new { id = item.FileID }, null)

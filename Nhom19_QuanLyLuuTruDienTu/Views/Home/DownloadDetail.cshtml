@@ -1,4 +1,7 @@
-﻿@{
+﻿@using System.Data;
+@using Nhom19_QuanLyLuuTruDienTu.models
+@model IndexVM
+@{
 
     Layout = "";
 }
@@ -14,6 +17,7 @@
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/Content/style.css" rel="stylesheet" />
 </head>
 
@@ -40,91 +44,82 @@
         </div>
     </nav>
 
-            <div class="p-5 md-p-l5" >
-                <div style="padding-left:500px">
-                    <div class="m-3 p-10 br-8 bg-white overflow-hidden " style="width:800px">
-                        <span>
-                            <img src="~/Content/assets/images/auth/pngegg.png" style="height:100px;"/>
-                            <h1>File Detail</h1><br />
-                        </span>
-                        <ul>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">Title :</div>
-                                    <div class="des">File Title</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">File Name :</div>
-                                    <div class="des">filename.exe</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">License :</div>
-                                    <div class="des">Open source</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">File size :</div>
-                                    <div class="des">2.28MB</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">Requirements :</div>
-                                    <div class="des">Windows 2000 / XP / Vista / Windows7 / XP64 / Vista64 / Windows7 64 / Windows8 / Windows8 64</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">Languages :</div>
-                                    <div class="des">Multiple languages</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">Date added :</div>
-                                    <div class="des">March 3, 2045</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">Author :</div>
-                                    <div class="des">Author name here</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fix description_info">
-                                    <div class="des_title">Author URL :</div>
-                                    <div class="des"><a href="#">www.domain.com</a></div>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="fix download_area">
-                            <div class="fix social_buttons text-center"><a href="#" class="facebook"><i class="fa fa-facebook"></i></a> &nbsp; <a href="#" class="twitter"><i class="fa fa-twitter"></i></a> &nbsp; <a href="#" class="google"><i class="fa fa-google-plus"></i></a> &nbsp; <a href="#" class="feed"><i class="fa fa-rss"></i></a></div>
-                            <div class="fix download_button"><a href="#">Download <i class="fa fa-download"></i> <span>(6.10MB - 3678 downloaded)</span></a></div>
+    <div class="p-5 md-p-l5">
+        <div style="padding-left:500px">
+            <div class="m-3 p-10 br-8 bg-white overflow-hidden " style="width:800px">
+                <span>
+                    <img src="~/Content/assets/images/auth/pngegg.png" style="height:100px;" />
+                    <h1>File Detail</h1><br />
+                </span>
+                <ul>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">File Name :</div>
+                            <div class="des">@Session["finame"]</div>
                         </div>
-                        <br />
-                        <div id="fb-root"></div>                
-                        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v14.0" nonce="5mZ5f1R7"></script>
-                        <div class="fb-share-button " data-href="https://www.youtube.com/" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DzRCsKf1AbTE%26ab_channel%3DFrexsRecords&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
-                    </div>
+                    </li>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">License :</div>
+                            <div class="des">Open source</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">File size :</div>
+                            <div class="des">@Session["fisize"] MB</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">Description :</div>
+                            <div class="des">@Session["fidesc"]</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">File Type</div>
+                            <div class="des">@Session["fitype"]</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">Date added :</div>
+                            <div class="des">@Session["ficreate"]</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">Author :</div>
+                            <div class="des">@Session["fiowner"]</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="fix description_info">
+                            <div class="des_title">Author URL :</div>
+                            <div class="des"><a href="#">www.@Session["fiowner"] .com</a></div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="fix download_area">
+                    <div class="fix social_buttons text-center"><a href="#" class="facebook"></a></div>
+                    <div class="fix download_button"><a href="@Url.Action("Download", "Home", new { filename = Session["FileDownload"]})">Download <i class="fa fa-download"></i> <span>(@Session["fisize"] MB - 3678 downloaded)</span></a></div>
                 </div>
-                
-                    
-               
+                <br />
+                <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v14.0" nonce="5mZ5f1R7"></script>
+                <div class="fb-share-button " data-href="https://www.youtube.com/" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DzRCsKf1AbTE%26ab_channel%3DFrexsRecords&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Chia sẻ</a></div>
+            </div>
         </div>
+
+
+
+    </div>
     </section>
 
     <!-- testimonials -->
-  
     <!-- featured blog -->
     <!-- blog -->
-    
-
     <!-- subscribe -->
     <section class="p-10 md-p-l5">
         <div class="br-8 bg-indigo-lightest-10 p-5 md-p-l5 flex flex-wrap md-justify-between md-items-center">
