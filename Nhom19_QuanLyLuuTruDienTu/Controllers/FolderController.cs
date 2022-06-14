@@ -30,15 +30,23 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             var delFolder = db.Folders.Find(id);
             var listFolder = db.Folders.Where(s => s.Parent == id).ToList();
-            if(listFolder.Count==0)
+            int folderID = (int)Session["FolderUser"];
+            var folderBase = db.Folders.Where(s => s.FolderID == folderID).FirstOrDefault();
+            if (listFolder.Count==0)
             {
+                var listFile = db.Files.Where(x => x.FolderID == id).ToList();
+                foreach (var ifile in listFile)
+                {
+                    ifile.FolderID = folderBase.FolderID;
+                    ifile.Status = false;
+                    db.Entry(ifile).State = EntityState.Modified;
+                }
                 db.Folders.Remove(delFolder);
                 db.SaveChanges();
             }
             else
             {
-                int folderID = (int)Session["FolderUser"];
-                var folderBase = db.Folders.Where(s => s.FolderID == folderID).FirstOrDefault();
+                
                 foreach (var item in listFolder)
                 {
                     DeleteFolder(item.FolderID);
@@ -60,28 +68,28 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         // GET: Folder/Details/5
         public ActionResult Details(int id)
         {
-
+            if(Session["UserID"]==null)
+            {
+                return RedirectToAction("LoginUser", "User");
+            }
             ViewBag.param = id;
-
-<<<<<<< HEAD
             var chitiet = db.Folders.Find(id);
+            if(chitiet.Parent==null)
+            {
+                int folderUser = (int)Session["FolderUser"];
+                if (chitiet.FolderID != folderUser)
+                {
+                    return RedirectToAction("Details", "Folder", new { id = folderUser });
+                }
+            }
 
             int userID = (int)Session["UserID"];
             var checkacc = db.Accounts.Where(s => s.AccountID == userID).FirstOrDefault();
             Session["AccountType"] = checkacc.AccountType.TypeName;
             Session["TotalSize"] = checkacc.TotalSize;
             double limitSize = 0;
-            if(checkacc.AccountType.AccountTypeID==2)
-=======
-            //var chitiet = db.Folders.Find(id);
-
-            Account ac = new Account();
-            var _userID = (string)Session["Username"];
-            var checkacc = db.Accounts.Where(s => s.Username == _userID).FirstOrDefault();
-            Session["AccountType"] = checkacc.AccountType.TypeName;
-            Session["TotalSize"] = ac.TotalSize;
             if (checkacc.AccountType.AccountTypeID == 2)
->>>>>>> b2a4e596f1aa9088012fd56ee728870d9d54ce6f
+
             {
                 limitSize = 10240;
             }
@@ -104,11 +112,9 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         private List<Folder> GetFolders()
         {
-            if (Session["Username"] == null)
+            if (Session["UserID"] == null)
             {
-                List<Folder> folist = db.Folders.ToList();
-
-                return folist;
+                return null;
             }
             else
             {

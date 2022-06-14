@@ -82,7 +82,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("LoginUser", "User");
             }
             File file = db.Files.Find(id);
             if (file == null)
@@ -112,7 +112,8 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             {
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                int foluserid = (int)Session["FolderID"];
+                return RedirectToAction("Details", "Folder", new { id = foluserid });
             }
             ViewBag.AccountID = new SelectList(db.Accounts, "AccountID", "Username", file.AccountID);
             ViewBag.AccountID = new SelectList(db.Accounts, "AccountID", "Username", file.AccountID);

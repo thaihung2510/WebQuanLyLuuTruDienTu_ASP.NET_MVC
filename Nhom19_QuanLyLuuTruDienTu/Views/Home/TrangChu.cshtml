@@ -2,6 +2,8 @@
 
     Layout = "";
 }
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +37,15 @@
             <a href="#features" class="fs-s1 mx-3 py-3 indigo no-underline hover-underline">Features</a>
             <a href="#pricing" class="fs-s1 mx-3 py-3 indigo no-underline hover-underline">Pricing</a>
             <a href="#blog" class="fs-s1 mx-3 py-3 indigo no-underline hover-underline">Blog</a>
-            <a href="/User/LoginUser" class="button bg-indigo white fw-600 no-underline mx-5">Sign In</a>
+            @if (Session["UserID"] != null)
+            {
+                <a href="/User/LoginUser" class="button bg-indigo white fw-600 no-underline mx-5">Go Fate</a>
+            }
+            else
+            {
+                <a href="/User/LoginUser" class="button bg-indigo white fw-600 no-underline mx-5">Sign In</a>
+            }
+
         </div>
     </nav>
 

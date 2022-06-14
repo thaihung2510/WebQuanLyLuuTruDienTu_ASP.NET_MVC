@@ -3,3 +3,6 @@
     ViewBag.Title = "PaymentConfirm";
 }
 <p>@ViewBag.Message</p>
+<div style="margin-top:20px">
+    @Html.ActionLink("Continue", "Details", "Folder", new { id = Session["FolderUser"] }, null)
+</div>

@@ -80,7 +80,7 @@
                     <b style="color: #FF5722">File:</b>
                 </td>
                 <td>
-                    <input type="file" name="files" id="files" multiple="multiple" />
+                    <input type="file" style="padding-left:15px;" name="files" id="files" multiple="multiple" />
                 </td>
                 <td>
                     <button type="submit" class="btn btn-success btn-rounded btn-icon-text">
@@ -91,30 +91,30 @@
         </table>
 
     }
-    @using (Html.BeginForm("Create", "Folder", FormMethod.Post))
+    @using (Html.BeginForm("Create", "Folder", FormMethod.Post, new { style = "margin-top:15px" }))
     {
         <b style="color: #FF5722">Folder:</b>
-        <input type="text" name="foldername" />
-        <input type="submit" name="Create Folder" />
+        <input type="text" style="width:300px" name="foldername" />
+        <input type="submit" value="Create" class="btn btn-success btn-rounded btn-icon-text" name="Create Folder" />
         <hr />
         <h2>@ViewBag.message</h2>
     }
     @foreach (var folders in Model.Folders)
     {<div class="Search">
-        <div class="foldercontainterarea">
-            <div class="foldercard">
-                @Html.ActionLink("X", "Foldel", "Folder", new { id = @folders.FolderID },
-               new { onclick = "return confirm('Xóa Thư mục sẽ xóa tất cả những gì bên trong, bạn chắc chứ?');" })
-                <a href="@Url.Action("Edit", "Folders", new { id = folders.FolderID })">...</a>
-                <a href="@Url.Action("Details", "Folder", new { id = @folders.FolderID})">
-                    <div>
-                        <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
-                        <p>@folders.FolderName</p>
-                    </div>
-                </a>
+            <div class="foldercontainterarea">
+                <div class="foldercard">
+                    @Html.ActionLink("X", "Foldel", "Folder", new { id = @folders.FolderID },
+                   new { onclick = "return confirm('Xóa Thư mục sẽ xóa tất cả những gì bên trong, bạn chắc chứ?');" })
+                    <a href="@Url.Action("Edit", "Folders", new { id = folders.FolderID })">...</a>
+                    <a href="@Url.Action("Details", "Folder", new { id = @folders.FolderID})">
+                        <div>
+                            <img src="~/Content/assets/images/folderpng.png" width="100" style="margin-top: -2px" />
+                            <p>@folders.FolderName</p>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
     }
 
     <table class="table table-hover table-dark">

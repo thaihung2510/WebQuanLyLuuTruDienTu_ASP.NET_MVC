@@ -18,6 +18,11 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         QLLTDTEntities db = new QLLTDTEntities();
         public ActionResult LoginUser()
         {
+            if(Session["UserID"]!=null)
+            {
+                int folderuser = (int)Session["FolderUser"];
+                return RedirectToAction("Details", "Folder", new { id = folderuser });
+            }
             return View();
         }
 
@@ -428,6 +433,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                         db.SaveChanges();
                         var acctypecurrent = db.AccountTypes.Where(x => x.AccountTypeID == usercurrent.AccountTypeID).FirstOrDefault();
                         Session["AccountType"] = acctypecurrent.TypeName;
+                        Session["limitSize"] = (double)10240;
                         ViewBag.Message = "Thanh toán thành công hóa đơn " + orderId + " | Mã giao dịch: " + vnpayTranId;
                     }
                     else

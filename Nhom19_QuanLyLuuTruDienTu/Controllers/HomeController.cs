@@ -22,8 +22,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         public ActionResult DownloadDetail(int id)
         {
             File file = db.Files.Where(s => s.FileID == id).FirstOrDefault();
-            var _filename = db.Files.Where(s => s.FileID == id).Select(s => s.FileName).FirstOrDefault();
-            Session["FileDownload"] = _filename;
+            Session["FileDownload"] = file.FileName;
             Session["fiId"] = file.FileID;
             Session["finame"] = file.FileName;
             Session["fisize"] = file.Size;
@@ -32,7 +31,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
             Session["ficreate"] = file.TimeKeep.CreateDate;
             Session["fiedit"] = file.TimeKeep.ModifiedDate;
             Session["fidesc"] = file.Description;
-            Download(_filename);
+            Session["DownloadURL"] = "http://filefate.somee.com/Home/DownloadDetail/" + id;
             return View();
         }
         public ActionResult Index()
@@ -93,21 +92,20 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         }
 
-        public FileResult Download(string fileName) //downloading
+        public FileResult Download(int id) //downloading
         {
             string fullPath = "";
             byte[] fileBytes;
+            var fileDownload = db.Files.Find(id);
             if (Session["Username"] == null)
             {
-                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), fileName);
-                fileBytes = System.IO.File.ReadAllBytes(fullPath);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                return null;
             }
             else
             {
-                fullPath = Path.Combine(Server.MapPath("~/Content/Files"), (string)Session["Username"], fileName);
+                fullPath = fileDownload.Location;
                 fileBytes = System.IO.File.ReadAllBytes(fullPath);
-                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileDownload.FileName);
             }
         }
         private int GetFileType(string fileExtension) //file type
@@ -148,33 +146,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         [HttpPost]
         public ActionResult Folder(string foldername) //CreateFolder
         {
-            //string folder = Server.MapPath(string.Format("~/Content/Files/{0}/{1}/", (string)Session["Username"], foldername));
-            //if (!Directory.Exists(folder))
-            //{
-            //    Directory.CreateDirectory(folder);
-            //    ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
-            //    Folder _folder = new Folder();
-            //    _folder.FolderName = foldername;
-            //    string str = (string)Session["Username"];
-            //    var parent = db.Folders.Where(s => s.FolderName == str).FirstOrDefault();
-            //    _folder.Parent = parent.FolderID;
-            //    db.Folders.Add(_folder);
-
-            //    TimeKeep _timeKeep = new TimeKeep();
-            //    DateTime _createdate = DateTime.Now;
-            //    _timeKeep.CreateDate = _createdate;
-            //    DateTime _modifydate = DateTime.Now;
-            //    _timeKeep.ModifiedDate = _modifydate;
-            //    DateTime _deletedate = DateTime.Now;
-            //    _timeKeep.DeletedDate = _deletedate;
-            //    db.TimeKeeps.Add(_timeKeep);
-
-            //    db.SaveChanges();
-            //}
-            //else
-            //{
-            //    ViewBag.message = "Folder" + foldername.ToString() + "Đã tồn tại";
-            //}
+            
             ViewBag.message = "Folder" + foldername.ToString() + "Tạo thành công";
             Folder _folder = new Folder();
             _folder.FolderName = foldername;
@@ -202,6 +174,16 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
         public ActionResult Index(List<HttpPostedFileBase> files) //Upload
         {
             TempData["Message"] = "";
+            int folderid = (int)Session["FolderID"];
+            double limit = (double)Session["limitSize"];
+            double listSum = (double)files.Sum(item => item.ContentLength);
+            double listSumInMB = Math.Round(listSum / 1048576, 2);
+            if(listSumInMB>limit)
+            {
+                TempData["Message"] = "Your Storage not enough!!";
+
+                return RedirectToAction("Details", "Folder", new { id = folderid });
+            }
             foreach (var file in files)
             {
                 if(file!=null)
@@ -249,10 +231,7 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
                     TempData["Message"] = "Choose your upload file!";
                 }
             }
-            
-            
-            int foluserid = (int)Session["FolderID"];
-            return RedirectToAction("Details", "Folder", new { id = foluserid });
+            return RedirectToAction("Details", "Folder", new { id = folderid });
         }
 
         public ActionResult DeleteFile(int id)

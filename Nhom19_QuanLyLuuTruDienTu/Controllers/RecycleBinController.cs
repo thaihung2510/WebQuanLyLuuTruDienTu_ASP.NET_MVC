@@ -23,6 +23,10 @@ namespace Nhom19_QuanLyLuuTruDienTu.Controllers
 
         public ActionResult Trash()
         {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("LoginUser", "User");
+            }
             int userid = (int)Session["UserID"];
             var files = db.Files.Where(x => x.AccountID == userid && x.Status == false).ToList();
             var checkAcc = db.Accounts.Where(s=>s.AccountID==userid).FirstOrDefault();
